@@ -55,6 +55,34 @@ La solución combina técnicas de **procesamiento y análisis de datos**, **mach
 
 ---
 
+## 🔌 Obtención de Datos vía API
+
+Para obtener los datos utilizados en este proyecto, se implementó un sistema automatizado de extracción utilizando la **API oficial de Idealista**. Este proceso permite acceder a información en tiempo real sobre propiedades inmobiliarias disponibles en Barcelona.
+
+### ⚙️ Proceso de Autenticación
+
+Idealista requiere autenticación basada en el protocolo **OAuth 2.0**. Para acceder a la API, se utilizan credenciales personales (API Key y API Secret), que deben ser **codificadas en Base64** y utilizadas para obtener un token de acceso temporal.
+
+El flujo general es el siguiente:
+
+1. Se realiza una solicitud `POST` al endpoint de autenticación (`/oauth/token`).
+2. Se envía la combinación de clave y secreto en el encabezado `Authorization`.
+3. La respuesta devuelve un `access_token` necesario para realizar las consultas.
+
+> 🔒 **Importante:** Las credenciales son confidenciales y no se incluyen en el repositorio público. Se recomienda almacenarlas en variables de entorno o archivos de configuración excluidos mediante `.gitignore`.
+
+### 🔍 Consulta de Propiedades
+
+Una vez autenticado, se realiza una llamada `POST` al endpoint de búsqueda de propiedades, proporcionando parámetros como:
+
+- **Tipo de operación**: `sale` (venta)
+- **Tipo de propiedad**: `homes` (viviendas)
+- **Ubicación**: coordenadas centrales de Barcelona
+- **Radio de búsqueda**: hasta 15 km
+- **Paginación**: automatizada para recorrer múltiples páginas
+- **Orden**: publicaciones más recientes primero
+
+
 ## 🗂️ Descripción del Dataset
 
 El proyecto se apoya en un conjunto de datos que contiene información detallada sobre anuncios de viviendas ubicadas en la ciudad de **Barcelona**. Cada registro representa una propiedad individual y está compuesto por múltiples características tanto estructurales como contextuales, fundamentales para el análisis y la predicción del precio de los inmuebles.
@@ -103,5 +131,6 @@ El proyecto se apoya en un conjunto de datos que contiene información detallada
 Este conjunto de datos ha sido limpiado y depurado para eliminar entradas duplicadas y estandarizar la representación de valores. Su estructura robusta lo convierte en una base confiable tanto para el análisis exploratorio como para la construcción de modelos de predicción.
 
 > ⚠️ Nota: Algunas columnas contienen valores nulos, especialmente en campos opcionales o específicos de ciertos anuncios. Estos casos se gestionan durante las fases de preprocesamiento y modelado.
+
 
 
