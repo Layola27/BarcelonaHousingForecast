@@ -55,4 +55,53 @@ La solución combina técnicas de **procesamiento y análisis de datos**, **mach
 
 ---
 
+## 🗂️ Descripción del Dataset
+
+El proyecto se apoya en un conjunto de datos que contiene información detallada sobre anuncios de viviendas ubicadas en la ciudad de **Barcelona**. Cada registro representa una propiedad individual y está compuesto por múltiples características tanto estructurales como contextuales, fundamentales para el análisis y la predicción del precio de los inmuebles.
+
+### 🔍 Principales Categorías de Información
+
+- **Características físicas del inmueble**  
+  Incluye variables como:
+  - Superficie en metros cuadrados (`size`)
+  - Número de habitaciones (`rooms`)
+  - Número de baños (`bathrooms`)
+  - Planta en la que se encuentra la propiedad (`floor`)
+  - Tipo de propiedad (`propertyType`), como piso, ático, etc.
+
+- **Ubicación geográfica**
+  - Distrito y barrio dentro de la ciudad
+  - Coordenadas geográficas (`latitude`, `longitude`)
+  - Dirección y visibilidad pública de la misma (`showAddress`)
+
+- **Datos económicos**
+  - Precio total de la propiedad (`price`)
+  - Precio por metro cuadrado (`priceByArea`)
+  - Información relacionada con la oferta y variaciones de precio (`change`, `status`)
+
+- **Estado del anuncio**
+  - Tipo de operación (por ejemplo, venta)
+  - Si la propiedad forma parte de una promoción de obra nueva (`newDevelopment`)
+  - Si el anuncio es destacado o parte de una campaña especial (`highlight`, `topPlus`, etc.)
+
+- **Atributos adicionales**
+  - Ascensor (`hasLift`)
+  - Espacio de parking (`parkingSpace`)
+  - Disponibilidad de planos, tour 360°, staging virtual, etc.
+
+- **Multimedia**
+  - Número de fotos disponibles (`numPhotos`)
+  - Miniatura del inmueble (`thumbnail`)
+  - Descripción textual del anuncio (`description`)
+  - Disponibilidad de video y otros medios visuales (`hasVideo`, `has3DTour`, etc.)
+
+- **Identificadores y metadatos**
+  - Código único de propiedad (`propertyCode`)
+  - Referencia externa (`externalReference`)
+  - URL del anuncio original
+
+Este conjunto de datos ha sido limpiado y depurado para eliminar entradas duplicadas y estandarizar la representación de valores. Su estructura robusta lo convierte en una base confiable tanto para el análisis exploratorio como para la construcción de modelos de predicción.
+
+> ⚠️ Nota: Algunas columnas contienen valores nulos, especialmente en campos opcionales o específicos de ciertos anuncios. Estos casos se gestionan durante las fases de preprocesamiento y modelado.
+
 
