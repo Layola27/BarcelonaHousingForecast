@@ -55,6 +55,9 @@ La solución combina técnicas de **procesamiento y análisis de datos**, **mach
 
 ---
 
+![ChatGPT Image 10 abr 2025, 18_47_41](https://github.com/user-attachments/assets/2de13236-7fee-48e4-88db-0700255b4de4)
+
+
 ## 🔌 Obtención de Datos vía API
 
 Para obtener los datos utilizados en este proyecto, se implementó un sistema automatizado de extracción utilizando la **API oficial de Idealista**. Este proceso permite acceder a información en tiempo real sobre propiedades inmobiliarias disponibles en Barcelona.
