@@ -6,6 +6,7 @@ Este proyecto tiene como objetivo el desarrollo de un sistema inteligente capaz 
 
 La solución combina técnicas de **procesamiento y análisis de datos**, **machine learning supervisado**, **visualización interactiva** y herramientas colaborativas para construir un flujo de trabajo integral, desde la recolección de datos hasta la entrega de resultados visuales.
 
+
 ## 🎯 Objetivos
 
 - Analizar las características más influyentes en los precios de viviendas en Barcelona.
@@ -55,8 +56,9 @@ La solución combina técnicas de **procesamiento y análisis de datos**, **mach
 
 ---
 
-![ChatGPT Image 10 abr 2025, 18_47_41](https://github.com/user-attachments/assets/2de13236-7fee-48e4-88db-0700255b4de4)
+## 🤖 FLUJO DEL PROYECTO
 
+![ChatGPT Image 10 abr 2025, 18_47_41](https://github.com/user-attachments/assets/2de13236-7fee-48e4-88db-0700255b4de4)
 
 ## 🔌 Obtención de Datos vía API
 
