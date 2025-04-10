@@ -134,6 +134,58 @@ El proyecto se apoya en un conjunto de datos que contiene información detallada
 Este conjunto de datos ha sido limpiado y depurado para eliminar entradas duplicadas y estandarizar la representación de valores. Su estructura robusta lo convierte en una base confiable tanto para el análisis exploratorio como para la construcción de modelos de predicción.
 
 > ⚠️ Nota: Algunas columnas contienen valores nulos, especialmente en campos opcionales o específicos de ciertos anuncios. Estos casos se gestionan durante las fases de preprocesamiento y modelado.
+>
+> ## 🔄 Proceso
+
+Con el objetivo de ampliar la automatización, escalabilidad y capacidad de análisis del sistema, el proyecto ha sido actualizado con una serie de funcionalidades clave que optimizan todo el flujo de trabajo, desde la adquisición de datos hasta la visualización final:
+
+### 🧹 1. Preprocesamiento Avanzado Automatizado
+
+Se ha incorporado un módulo dedicado al preprocesamiento inteligente de los datos obtenidos a través de la API de Idealista. Este módulo realiza automáticamente:
+
+- Validación de la estructura de los datos recibidos.
+- Detección y tratamiento de valores nulos o inconsistentes.
+- Conversión de tipos de datos (por ejemplo, fechas, booleanos y numéricos).
+- Codificación de variables categóricas para su uso en modelos predictivos.
+- Normalización y transformación de escalas si es necesario.
+- Enriquecimiento de datos con nuevas variables derivadas, como densidad de precio por zona o ratios por número de habitaciones.
+
+Este proceso permite estandarizar y optimizar los datos antes de ser almacenados, garantizando su integridad y calidad para usos posteriores.
+
+### 🗄️ 2. Persistencia en Base de Datos PostgreSQL
+
+Una vez preprocesados, los datos son almacenados en una base de datos relacional PostgreSQL. Este enfoque trae múltiples beneficios:
+
+- Mejora el acceso concurrente y la escalabilidad del sistema.
+- Permite ejecutar consultas SQL complejas para análisis exploratorios, filtrado y auditoría.
+- Facilita el acceso desde herramientas externas como Power BI, Jupyter Notebook u otros clientes BI.
+- Garantiza una trazabilidad completa de los datos históricos, esencial para estudios temporales o actualizaciones incrementales del modelo.
+
+La base de datos se estructura en tablas normalizadas que representan entidades clave como propiedades, ubicaciones, precios históricos y predicciones realizadas.
+
+### 🔁 3. Reentrenamiento Periódico del Modelo de Regresión Forest
+
+Se ha implementado un mecanismo de aprendizaje continuo donde el modelo de predicción (basado en Random Forest Regressor) se actualiza automáticamente a medida que se incorporan nuevos datos en la base de datos. Esta funcionalidad incluye:
+
+- Carga incremental de registros nuevos desde PostgreSQL.
+- Reentrenamiento parcial o completo del modelo para adaptarse a cambios en el mercado inmobiliario.
+- Validación cruzada automática y registro del desempeño (MAE, RMSE, R²).
+- Almacenamiento del modelo entrenado mediante serialización (joblib/pickle) para su uso inmediato en la API o interfaz web.
+
+Este enfoque garantiza que el modelo esté siempre actualizado con las últimas tendencias del mercado, manteniendo una alta precisión en las predicciones.
+
+### 📊 4. Dashboard Interactivo con Power BI
+
+Los datos alojados en PostgreSQL se vinculan directamente con Power BI para construir paneles de control interactivos, accesibles a usuarios no técnicos. El dashboard permite:
+
+- Visualizar mapas dinámicos de precios por distrito y barrio.
+- Filtrar propiedades por rango de superficie, número de habitaciones, planta o tipo de vivienda.
+- Analizar la evolución temporal de los precios medios por zona.
+- Explorar indicadores clave como el precio por m², la densidad de anuncios o la distribución de tipos de propiedad.
+- Exportar visualizaciones o informes en PDF o Excel para toma de decisiones.
+
+Gracias a esta capa de visualización, el sistema se convierte en una herramienta útil tanto para analistas como para usuarios finales (inversores, agentes inmobiliarios, compradores particulares).
+
 
 
 
