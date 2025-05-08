@@ -27,13 +27,14 @@ La solución combina técnicas de **procesamiento y análisis de datos**, **mach
 ## 🚀 Características del Proyecto
 
 - **Ingeniería de Datos Avanzada:** Limpieza, preprocesamiento y transformación exhaustiva de datos de viviendas.
-- **Modelado Predictivo Robusto:** Implementación y reentrenamiento de un modelo XGBoost para la predicción de precios.
+- **Modelado Predictivo Robusto:** Implementación y reentrenamiento de un modelo XGBoost para la predicción de precios, seleccionado mediante experimentación con Orange Data Mining.
 - **Consulta en Lenguaje Natural:** Interfaz de chat con IA para explorar el dataset mediante preguntas directas.
 - **Generación Automática de Informes:** Creación y envío de resúmenes informativos por correo electrónico utilizando IA.
-- **Visualización Espacial Interactiva:** Mapa con la capacidad de seleccionar ubicaciones y visualizar el área de influencia del modelo.
+- **Visualización Espacial Interactiva:** Mapa con la capacidad de seleccionar ubicaciones y visualizar el área de influencia del modelo. Almacenamiento de coordenadas con soporte geoespacial en PostgreSQL.
+- **Análisis Exploratorio con R:** Utilización de R para la generación de visualizaciones clave del dataset.
 - **Interfaz Web Full-Stack:** Aplicación web completa desarrollada con React en el frontend y FastAPI en el backend.
 - **Despliegue Contenerizado:** Uso de Docker y Docker Compose para la gestión y el despliegue de todos los servicios.
-- **Persistencia de Datos:** Almacenamiento eficiente y escalable de los datos en una base de datos PostgreSQL.
+- **Persistencia de Datos Geoespaciales:** Almacenamiento eficiente y escalable de los datos, incluyendo soporte para consultas geoespaciales, en una base de datos PostgreSQL.
 
 ---
 
@@ -42,11 +43,11 @@ La solución combina técnicas de **procesamiento y análisis de datos**, **mach
 | Herramienta / Lenguaje | Descripción |
 |------------------------|-------------|
 | **Python** | Procesamiento de datos, modelado de machine learning, desarrollo del backend con FastAPI y scripts de automatización. |
-| **R** | Análisis estadístico y validación de modelos (utilizado en etapas iniciales). |
-| **Orange Data Mining** | Prototipado visual de flujos de datos y modelos (utilizado en etapas iniciales). |
+| **R** | Análisis estadístico y **visualización exploratoria de datos**, incluyendo la graficación de distribuciones y relaciones entre variables del dataset. |
+| **Orange Data Mining** | **Descubrimiento de conocimiento y prototipado visual de modelos de machine learning**. Se utilizó para la **evaluación comparativa de diferentes algoritmos de regresión**, identificando XGBoost como el modelo más adecuado. Se aplicaron técnicas de **minería de datos supervisada** para comparar el rendimiento de los modelos. |
 | **FastAPI** | Desarrollo de la API REST del backend. |
 | **Uvicorn** | Servidor ASGI para ejecutar la aplicación FastAPI. |
-| **PostgreSQL** | Almacenamiento y gestión eficiente de datos estructurados del dataset de viviendas. |
+| **PostgreSQL** | Almacenamiento y gestión eficiente de datos estructurados del dataset de viviendas, **incluyendo soporte para datos geoespaciales** mediante la extensión PostGIS para almacenar y consultar las coordenadas de latitud y longitud. |
 | **Ollama** | Ejecución local de modelos de lenguaje grande (LLMs) para la consulta en lenguaje natural. |
 | **LangChain** | Framework para la orquestación de LLMs y la interacción con la base de datos. |
 | **n8n** | Plataforma de automatización para la generación y el envío de informes por correo electrónico. |
@@ -65,14 +66,16 @@ La solución combina técnicas de **procesamiento y análisis de datos**, **mach
 ## 🧠 Metodología General
 
 1.  **Obtención de Datos**: Extracción de información inicial de un archivo CSV (`pisosBarcelona-21-04-2025-clean.csv`).
-2.  **Almacenamiento de Datos**: Carga del dataset completo en una base de datos PostgreSQL.
-3.  **Limpieza y Transformación Avanzada**: Preprocesamiento exhaustivo de los datos, incluyendo manejo de valores faltantes, codificación de variables categóricas, ingeniería de características (espaciales, no lineales, interacciones) y escalado.
-4.  **Modelado Predictivo**: Entrenamiento, evaluación y selección de un modelo de regresión (XGBoost) para la predicción de precios. Persistencia del pipeline completo (preprocesamiento + modelo).
-5.  **Desarrollo del Backend**: Creación de una API REST con FastAPI para exponer las funcionalidades de predicción, consulta de datos y generación de informes.
-6.  **Implementación de Consulta con IA**: Integración de Ollama y LangChain para permitir la interacción con la base de datos mediante lenguaje natural.
-7.  **Automatización de Informes**: Configuración de un workflow en n8n para generar resúmenes de datos con LLMs externos y enviarlos por correo electrónico.
-8.  **Desarrollo del Frontend**: Creación de una interfaz de usuario interactiva con React, incluyendo un formulario de predicción, una interfaz de chat con IA y una sección para solicitar informes. Integración de un mapa interactivo con React Leaflet.
-9.  **Despliegue**: Contenerización de todos los servicios backend con Docker y orquestación con Docker Compose.
+2.  **Almacenamiento de Datos Geoespaciales**: Carga del dataset completo en una base de datos PostgreSQL, **utilizando tipos de datos geoespaciales para las columnas de latitud y longitud**.
+3.  **Análisis Exploratorio con R**: Utilización de R para realizar un análisis exploratorio del dataset, generando visualizaciones para comprender la distribución de las variables y las relaciones entre ellas.
+4.  **Descubrimiento del Modelo con Orange Data Mining**: Aplicación de técnicas de **minería de datos supervisada** en Orange Data Mining para **comparar el rendimiento de diferentes modelos de regresión** (e.g., regresión lineal, árboles de decisión, random forest) en la tarea de predicción de precios. Se utilizaron métricas de evaluación como el error cuadrático medio (RMSE) y el coeficiente de determinación (R²) para determinar que **XGBoost ofrecía el mejor rendimiento para este problema**.
+5.  **Limpieza y Transformación Avanzada**: Preprocesamiento exhaustivo de los datos, incluyendo manejo de valores faltantes, codificación de variables categóricas, ingeniería de características (espaciales, no lineales, interacciones) y escalado.
+6.  **Modelado Predictivo**: Entrenamiento, evaluación y selección del modelo XGBoost basado en los resultados obtenidos con Orange Data Mining. Persistencia del pipeline completo (preprocesamiento + modelo).
+7.  **Desarrollo del Backend**: Creación de una API REST con FastAPI para exponer las funcionalidades de predicción, consulta de datos y generación de informes.
+8.  **Implementación de Consulta con IA**: Integración de Ollama y LangChain para permitir la interacción con la base de datos mediante lenguaje natural.
+9.  **Automatización de Informes**: Configuración de un workflow en n8n para generar resúmenes de datos con LLMs externos y enviarlos por correo electrónico.
+10. **Desarrollo del Frontend**: Creación de una interfaz de usuario interactiva con React, incluyendo un formulario de predicción, una interfaz de chat con IA y una sección para solicitar informes. Integración de un mapa interactivo (React Leaflet) para la selección de ubicación y visualización espacial.
+11. **Despliegue**: Contenerización de todos los servicios backend con Docker y orquestación con Docker Compose.
 
 ---
 
@@ -87,7 +90,7 @@ El proyecto se basa en un conjunto de datos detallado sobre anuncios de vivienda
 ### 🔍 Principales Categorías de Información
 
 - **Características físicas del inmueble**: Superficie, número de habitaciones y baños, planta, tipo de propiedad.
-- **Ubicación geográfica**: Distrito, barrio, coordenadas (latitud, longitud), dirección.
+- **Ubicación geográfica**: Distrito, barrio, **coordenadas (latitud, longitud)**, dirección. **Estas coordenadas se almacenan en PostgreSQL utilizando tipos de datos geoespaciales proporcionados por la extensión PostGIS.**
 - **Datos económicos**: Precio total, precio por metro cuadrado, información sobre la oferta y variaciones de precio.
 - **Estado del anuncio**: Tipo de operación, si es obra nueva, si es destacado.
 - **Atributos adicionales**: Ascensor, parking, disponibilidad de planos, tour virtual.
@@ -98,9 +101,35 @@ El dataset inicial (`pisosBarcelona-21-04-2025-clean.csv`) fue sometido a un pro
 
 > ⚠️ Nota: Durante el preprocesamiento avanzado, se gestionaron los valores nulos y se aplicaron transformaciones para preparar los datos para el modelado.
 
+## 📊 Análisis Exploratorio con R
+
+En las etapas iniciales del proyecto, se utilizó el lenguaje de programación **R** para llevar a cabo un **análisis exploratorio de datos (EDA)**. Este proceso fue fundamental para comprender las distribuciones de las variables clave, identificar posibles relaciones entre ellas y detectar valores atípicos. Se generaron diversas visualizaciones, como histogramas de precios, diagramas de dispersión entre el tamaño y el precio, y gráficos de caja para comparar los precios por tipo de propiedad y distrito. Estas visualizaciones ayudaron a informar las decisiones de ingeniería de características y la selección del modelo predictivo.
+
+## 🧠 Descubrimiento del Modelo con Orange Data Mining
+
+Para la selección del modelo predictivo más adecuado, se empleó la herramienta de **minería de datos visual Orange Data Mining**. Se aplicaron flujos de trabajo para comparar varios algoritmos de regresión, incluyendo regresión lineal, árboles de decisión y Random Forest, utilizando el dataset preprocesado. Mediante la aplicación de técnicas de **evaluación de modelos supervisados** y la comparación de métricas de rendimiento como el **Error Cuadrático Medio (RMSE)** y el **Coeficiente de Determinación (R²)**, se determinó que **XGBoost ofrecía consistentemente el mejor rendimiento para la predicción de precios de viviendas en este dataset**. Este proceso de descubrimiento visual y comparativo proporcionó una base sólida para la elección del modelo final.
+
+## 💾 Base de Datos PostgreSQL y Soporte Geoespacial
+
+Se seleccionó **PostgreSQL** como la base de datos principal debido a su robustez, fiabilidad y, crucialmente, su **extensión geoespacial PostGIS**. Esta extensión proporciona tipos de datos y funciones para el almacenamiento y la consulta de información geográfica.
+
+### ⚙️ Estructura de la Base de Datos
+
+* **Motor:** PostgreSQL con extensión PostGIS habilitada.
+* **Contenedor:** Docker
+* **Nombre de la Base de Datos:** `housing_db`
+* **Schema:** `public`
+* **Tabla Principal:** `pisos_barcelona` (o `viviendas`)
+
+La tabla `pisos_barcelona` contiene columnas para la latitud y la longitud de cada vivienda. **Gracias a la extensión PostGIS, estas columnas pueden ser definidas con tipos de datos geométricos (ej., `POINT`)**, lo que permite realizar consultas espaciales eficientes en el futuro (aunque no se exploren a fondo en esta versión, esta capacidad es fundamental para la escalabilidad y futuras funcionalidades basadas en la ubicación).
+
+### 📍 Almacenamiento Geoespacial
+
+Al cargar los datos desde el CSV, las columnas de latitud y longitud se transformaron y se insertaron en la tabla `pisos_barcelona`. Si bien en esta versión inicial el uso de las capacidades geoespaciales de PostGIS se centra en el almacenamiento de las coordenadas, la infraestructura está preparada para implementar en el futuro funcionalidades como la búsqueda de viviendas dentro de un radio específico, el cálculo de distancias entre propiedades o la integración con otras fuentes de datos geográficos.
+
 ## 🧠 Modelado Predictivo
 
-En esta etapa crucial del proyecto, se construyó un modelo de aprendizaje automático para predecir el precio de las viviendas en Barcelona. Se seleccionó el algoritmo XGBoost Regressor debido a su alto rendimiento y capacidad para manejar relaciones complejas en los datos.
+En esta etapa crucial del proyecto, se construyó un modelo de aprendizaje automático para predecir el precio de las viviendas en Barcelona. Se seleccionó el algoritmo XGBoost Regressor basado en los resultados del análisis comparativo realizado con Orange Data Mining.
 
 ### ⚙️ Ingeniería de Características (Feature Engineering)
 
@@ -150,4 +179,4 @@ La aplicación backend y sus dependencias (PostgreSQL, Ollama, n8n) se empaqueta
 
 ---
 
-Este documento proporciona una visión detallada de la arquitectura y las funcionalidades de la plataforma web de análisis y predicción de precios de viviendas en Barcelona. La combinación de inteligencia artificial, procesamiento del lenguaje natural y tecnologías web modernas ofrece una herramienta poderosa para la exploración y la toma de decisiones en el mercado inmobiliario.
+Este documento proporciona una visión detallada de la arquitectura y las funcionalidades de la plataforma web de análisis y predicción de precios de viviendas en Barcelona. La combinación de inteligencia artificial, procesamiento del lenguaje natural, visualización exploratoria con R, descubrimiento de modelos con Orange Data Mining y el uso de una base de datos geoespacial como PostgreSQL ofrece una herramienta poderosa para la exploración y la toma de decisiones en el mercado inmobiliario.
