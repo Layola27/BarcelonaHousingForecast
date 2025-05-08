@@ -59,20 +59,44 @@ Este proyecto se centra en la construcción de un modelo de machine learning par
     * Obtiene datos de la API de Idealista.
     * Realiza la autenticación y las peticiones a la API.
     * Guarda los datos en archivos CSV.
+    * **Para Ejecutar:**
+        * Asegúrate de tener instaladas las librerías: `requests`, `base64`, `pandas`.
+        * Reemplaza los valores de `API_KEY` y `API_SECRET` con tus propias credenciales de Idealista.
+        * Ejecuta las celdas en orden. El CSV generado (`pisos_barcelona.csv`) contendrá los datos obtenidos de la API.
 * **`2.AgregarNuevasViviendas.ipynb`:**
     * Unifica los nuevos datos con los existentes.
     * Elimina los duplicados.
     * Guarda el dataset unificado.
+    * **Para Ejecutar:**
+        * Asegúrate de tener instalada la librería `pandas`.
+        * Modifica las rutas de los archivos CSV (`df1` y `df2`) para que apunten a tus archivos de datos.
+        * Ejecuta las celdas en orden. El CSV generado (`pisos_barcelona_unificado.csv`) será el dataset combinado y sin duplicados.
 * **`3.PreProcesamiento.ipynb`:**
     * Realiza el preprocesamiento inicial de los datos.
     * Elimina columnas innecesarias.
     * Extrae información de columnas JSON.
+    * **Para Ejecutar:**
+        * Asegúrate de tener instaladas las librerías `pandas` y `ast`.
+        * Modifica la ruta del archivo CSV para que apunte al dataset unificado (`pisos_barcelona_unificado.csv`).
+        * Ejecuta las celdas en orden. El CSV generado (`pisosBarcelona-{fecha_actual}-clean.csv`) contendrá los datos preprocesados.
 * **`4.ModeloExport.ipynb`:**
     * Realiza el preprocesamiento avanzado.
     * Implementa la ingeniería de características.
     * Entrena el modelo XGBoost.
     * Guarda el pipeline completo.
+    * **Para Ejecutar:**
+        * Este notebook requiere varias librerías. La primera celda instala `category_encoders`. Asegúrate de que todas estén instaladas (`pandas`, `numpy`, `geopy`, `scikit-learn`, `xgboost`, `joblib`).
+        * Si estás utilizando Google Colab, asegúrate de que tu Google Drive esté montado correctamente (la primera celda del notebook lo hace). Modifica la ruta del archivo CSV si es necesario.
+        * Ejecuta las celdas en orden. El archivo generado (`pipeline_idealista_completo.joblib`) contendrá el pipeline completo y estará guardado en la ruta especificada.
 
 ---
 
-Este README proporciona una visión general del proyecto, su propósito, la metodología seguida y las herramientas utilizadas. Los notebooks detallan cada etapa del proceso, desde la obtención de los datos hasta la generación del modelo predictivo.
+**Consideraciones Importantes:**
+
+* **Entorno de Ejecución:** Los notebooks están diseñados para ser ejecutados en Google Colab, pero también pueden funcionar en un entorno Jupyter local si se configuran las rutas de los archivos y se instalan las librerías necesarias.
+* **Dependencias:** Asegúrate de instalar todas las librerías requeridas antes de ejecutar cada notebook. Puedes usar `pip install <libreria>` o ejecutar la primera celda del notebook `4.ModeloExport.ipynb` para instalar `category_encoders`.
+* **Rutas de Archivos:** Ajusta las rutas de los archivos CSV para que coincidan con la ubicación de tus datos.
+* **Credenciales de la API:** En el notebook `1.IdealistaAPI.ipynb`, debes proporcionar tus propias credenciales de la API de Idealista (API\_KEY y API\_SECRET).
+* **Orden de Ejecución:** Es importante ejecutar los notebooks en el orden numérico para asegurar que los datos se procesen correctamente en cada etapa.
+
+Este README proporciona una visión general del proyecto, su propósito, la metodología seguida, las herramientas utilizadas y una guía para ejecutar los notebooks. Los notebooks detallan cada etapa del proceso, desde la obtención de los datos hasta la generación del modelo predictivo.
