@@ -1,203 +1,153 @@
-# 🏘️ Memoria Técnica: Plataforma Web de Análisis y Predicción de Precios de Viviendas en Barcelona
+# 🏘️ Plataforma Web de Análisis y Predicción de Precios de Viviendas en Barcelona con IA y Big Data
 
-## 1. Introducción
+## 📌 Descripción del Proyecto
 
-Este documento presenta la memoria técnica detallada de una plataforma web full-stack desarrollada para el análisis y la predicción de precios de viviendas en Barcelona y sus alrededores. La aplicación ofrece tres funcionalidades principales: la estimación del precio de una vivienda a partir de sus características, la consulta interactiva del conjunto de datos mediante lenguaje natural y la solicitud de un informe resumido generado por inteligencia artificial enviado por correo electrónico. El objetivo de esta memoria es documentar exhaustivamente la arquitectura, los componentes técnicos, las funcionalidades implementadas y las tecnologías utilizadas en el desarrollo de esta plataforma.
-![ChatGPT Image 10 abr 2025, 18_47_41](https://github.com/user-attachments/assets/2de13236-7fee-48e4-88db-0700255b4de4)
-## 2. Arquitectura General
+Este proyecto ha evolucionado hacia una plataforma web interactiva y completa, centrada en el análisis y la predicción de precios de viviendas en Barcelona y sus alrededores. El objetivo principal es proporcionar a usuarios, compradores, vendedores, agencias inmobiliarias y entidades financieras herramientas inteligentes para la **toma de decisiones informadas**.
 
-La arquitectura de la plataforma se basa en un diseño modular y distribuido, facilitado por la contenerización con Docker. Los principales componentes que interactúan para ofrecer la funcionalidad completa son:
+La plataforma integra **tres funcionalidades clave**:
 
-* **Frontend (React):** Interfaz de usuario interactiva que permite a los usuarios interactuar con las diferentes funcionalidades de la plataforma.
-* **Backend API (FastAPI):** API RESTful que actúa como intermediario entre el frontend y los demás servicios, gestionando las peticiones de predicción, consulta de datos y generación de informes.
-* **Base de Datos (PostgreSQL):** Almacenamiento persistente del dataset de viviendas de Barcelona.
-* **Servicio LLM (Ollama):** Ejecución local de modelos de lenguaje para la consulta en lenguaje natural de la base de datos.
-* **Automatización de Informes (n8n):** Plataforma de automatización para la generación y envío de informes resumidos por correo electrónico.
+1.  **Estimación de Precios:** Permite predecir el precio de una vivienda específica introduciendo sus características y ubicación mediante un modelo de inteligencia artificial avanzado.
+2.  **Consulta Interactiva con IA:** Facilita la exploración del dataset completo de viviendas utilizando lenguaje natural a través de una interfaz de chat impulsada por un modelo de lenguaje grande (LLM).
+3.  **Generación de Informes Resumidos:** Ofrece la posibilidad de solicitar informes resumidos sobre los datos, generados por IA y enviados por correo electrónico.
 
-La comunicación entre estos componentes se realiza principalmente a través de peticiones HTTP, facilitando la escalabilidad y el mantenimiento del sistema.
+La solución combina técnicas de **procesamiento y análisis de datos**, **machine learning supervisado**, **procesamiento del lenguaje natural**, **visualización interactiva** y herramientas de automatización para construir un flujo de trabajo integral, desde la gestión de datos hasta la entrega de información valiosa a los usuarios.
 
-## 3. Base de Datos (PostgreSQL)
+## 🎯 Objetivos
 
-### 3.1. Descripción
+- Analizar las características más influyentes en los precios de viviendas en Barcelona.
+- Implementar y mantener un modelo predictivo de precios de alta precisión utilizando algoritmos de IA.
+- Facilitar la exploración interactiva del conjunto de datos mediante consultas en lenguaje natural.
+- Automatizar la generación y el envío de informes resumidos basados en los datos.
+- Visualizar espacialmente los datos y las predicciones a través de un mapa interactivo.
+- Proporcionar una interfaz web intuitiva y fácil de usar para todas las funcionalidades.
+- Gestionar el desarrollo del proyecto de forma colaborativa y ágil.
 
-Se utiliza una base de datos PostgreSQL para almacenar y gestionar el dataset de viviendas de Barcelona. Esta elección se basa en su robustez, fiabilidad y capacidad para manejar grandes volúmenes de datos estructurados.
+---
 
-### 3.2. Esquema de la Base de Datos
+## 🚀 Características del Proyecto
 
-* **Motor:** PostgreSQL
-* **Contenedor:** Docker
-* **Nombre de la Base de Datos:** `housing_db`
-* **Schema:** `public`
-* **Tabla Principal:** `pisos_barcelona` (o `viviendas`)
+- **Ingeniería de Datos Avanzada:** Limpieza, preprocesamiento y transformación exhaustiva de datos de viviendas.
+- **Modelado Predictivo Robusto:** Implementación y reentrenamiento de un modelo XGBoost para la predicción de precios.
+- **Consulta en Lenguaje Natural:** Interfaz de chat con IA para explorar el dataset mediante preguntas directas.
+- **Generación Automática de Informes:** Creación y envío de resúmenes informativos por correo electrónico utilizando IA.
+- **Visualización Espacial Interactiva:** Mapa con la capacidad de seleccionar ubicaciones y visualizar el área de influencia del modelo.
+- **Interfaz Web Full-Stack:** Aplicación web completa desarrollada con React en el frontend y FastAPI en el backend.
+- **Despliegue Contenerizado:** Uso de Docker y Docker Compose para la gestión y el despliegue de todos los servicios.
+- **Persistencia de Datos:** Almacenamiento eficiente y escalable de los datos en una base de datos PostgreSQL.
 
-### 3.3. Datos
+---
 
-El dataset inicial se cargó desde un archivo CSV (`pisosBarcelona-21-04-2025-clean.csv`) que contenía aproximadamente 8400 registros y 15MB de información. Cada registro representa una vivienda y contiene campos detallados sobre su precio, tamaño, número de habitaciones y baños, ubicación (latitud, longitud), características adicionales (ascensor, parking, etc.) y otros metadatos relevantes.
+## 🛠️ Tecnologías y Herramientas Utilizadas
 
-## 4. Modelo Predictivo de Precios
+| Herramienta / Lenguaje | Descripción |
+|------------------------|-------------|
+| **Python** | Procesamiento de datos, modelado de machine learning, desarrollo del backend con FastAPI y scripts de automatización. |
+| **R** | Análisis estadístico y validación de modelos (utilizado en etapas iniciales). |
+| **Orange Data Mining** | Prototipado visual de flujos de datos y modelos (utilizado en etapas iniciales). |
+| **FastAPI** | Desarrollo de la API REST del backend. |
+| **Uvicorn** | Servidor ASGI para ejecutar la aplicación FastAPI. |
+| **PostgreSQL** | Almacenamiento y gestión eficiente de datos estructurados del dataset de viviendas. |
+| **Ollama** | Ejecución local de modelos de lenguaje grande (LLMs) para la consulta en lenguaje natural. |
+| **LangChain** | Framework para la orquestación de LLMs y la interacción con la base de datos. |
+| **n8n** | Plataforma de automatización para la generación y el envío de informes por correo electrónico. |
+| **Google Gemini / OpenAI** | Modelos de lenguaje externos utilizados por n8n para la generación de informes (alternativamente). |
+| **React** | Desarrollo de la interfaz de usuario interactiva del frontend. |
+| **Vite** | Bundler para la aplicación React. |
+| **Material UI (MUI)** | Librería de componentes de interfaz de usuario para React. |
+| **React Leaflet** | Librería de componentes de mapa interactivo para React. |
+| **Docker** | Plataforma de contenerización para empaquetar y ejecutar los diferentes servicios. |
+| **Docker Compose** | Herramienta para la definición y gestión de aplicaciones multi-contenedor Docker. |
+| **GitHub** | Control de versiones y colaboración en equipo. |
+| **Jira** | Gestión ágil de tareas, sprints y documentación (utilizado para la gestión del proyecto). |
 
-### 4.1. Descripción
+---
 
-Se implementó un modelo de Machine Learning para estimar el precio de las viviendas basándose en sus características. El objetivo es proporcionar una herramienta precisa para la valoración inmobiliaria.
+## 🧠 Metodología General
 
-### 4.2. Modelo Utilizado
+1.  **Obtención de Datos**: Extracción de información inicial de un archivo CSV (`pisosBarcelona-21-04-2025-clean.csv`).
+2.  **Almacenamiento de Datos**: Carga del dataset completo en una base de datos PostgreSQL.
+3.  **Limpieza y Transformación Avanzada**: Preprocesamiento exhaustivo de los datos, incluyendo manejo de valores faltantes, codificación de variables categóricas, ingeniería de características (espaciales, no lineales, interacciones) y escalado.
+4.  **Modelado Predictivo**: Entrenamiento, evaluación y selección de un modelo de regresión (XGBoost) para la predicción de precios. Persistencia del pipeline completo (preprocesamiento + modelo).
+5.  **Desarrollo del Backend**: Creación de una API REST con FastAPI para exponer las funcionalidades de predicción, consulta de datos y generación de informes.
+6.  **Implementación de Consulta con IA**: Integración de Ollama y LangChain para permitir la interacción con la base de datos mediante lenguaje natural.
+7.  **Automatización de Informes**: Configuración de un workflow en n8n para generar resúmenes de datos con LLMs externos y enviarlos por correo electrónico.
+8.  **Desarrollo del Frontend**: Creación de una interfaz de usuario interactiva con React, incluyendo un formulario de predicción, una interfaz de chat con IA y una sección para solicitar informes. Integración de un mapa interactivo con React Leaflet.
+9.  **Despliegue**: Contenerización de todos los servicios backend con Docker y orquestación con Docker Compose.
 
-* **Algoritmo:** XGBoost Regressor
+---
 
-### 4.3. Ingeniería de Características (Feature Engineering)
+## 🤖 FLUJO DEL PROYECTO
 
-Se aplicó un extenso proceso de ingeniería de características para optimizar el rendimiento del modelo. Los pasos clave incluyeron:
+![Diagrama del flujo del proyecto](https://github.com/user-attachments/assets/2de13236-7fee-48e4-88db-0700255b4de4)
 
-* **Limpieza de Datos:** Manejo de valores inconsistentes (ej., pisos 'bj'/'en' como plantas bajas), tratamiento de valores 'Unknown'.
-* **Imputación de Valores Nulos:** Reemplazo de valores faltantes utilizando la mediana de la columna correspondiente. Se crearon flags (`isna_`) para indicar la presencia original de valores nulos.
-* **Combinación de Features:** Creación de nuevas características a partir de las existentes (ej., `parking_status`).
-* **Ingeniería de Características Espaciales:**
-    * Cálculo de la distancia a Puntos de Interés (POIs).
-    * Aplicación de clustering KMeans sobre las coordenadas geográficas para identificar zonas.
-    * Aplicación de Análisis de Componentes Principales (PCA) sobre las coordenadas para reducir la dimensionalidad y capturar la variabilidad espacial.
-* **Codificación de Variables Categóricas:** Utilización de TargetEncoder para las columnas `propertyType`, `status` y `parking_status`.
-* **Creación de Features No Lineales:**
-    * Generación de Splines sobre las variables numéricas `size` y las distancias a POIs para capturar relaciones no lineales.
-    * Creación de términos de interacción polinómica de grado 2 entre las características.
-* **Transformación del Target:** Aplicación de la transformación logarítmica (`log1p`) a la variable objetivo (`price`) para normalizar su distribución.
-* **Filtrado de Outliers:** Eliminación de valores atípicos basados en los percentiles 1 y 99 de la variable objetivo.
-* **Escalado:** Aplicación de `StandardScaler` a las características numéricas para asegurar que tengan una escala similar antes de alimentar el modelo.
+## 🗂️ Descripción del Dataset
 
-### 4.4. Persistencia del Modelo
+El proyecto se basa en un conjunto de datos detallado sobre anuncios de viviendas ubicadas en la ciudad de **Barcelona**. Cada registro contiene información estructural y contextual crucial para el análisis y la predicción de precios.
 
-Todo el pipeline de preprocesamiento y el modelo XGBoost entrenado se serializaron y guardaron en un único archivo utilizando la librería `joblib`:
+### 🔍 Principales Categorías de Información
 
-* **Archivo:** `pipeline_idealista_completo.joblib`
+- **Características físicas del inmueble**: Superficie, número de habitaciones y baños, planta, tipo de propiedad.
+- **Ubicación geográfica**: Distrito, barrio, coordenadas (latitud, longitud), dirección.
+- **Datos económicos**: Precio total, precio por metro cuadrado, información sobre la oferta y variaciones de precio.
+- **Estado del anuncio**: Tipo de operación, si es obra nueva, si es destacado.
+- **Atributos adicionales**: Ascensor, parking, disponibilidad de planos, tour virtual.
+- **Multimedia**: Número de fotos, miniatura, descripción, disponibilidad de video.
+- **Identificadores y metadatos**: Código de propiedad, referencia externa, URL del anuncio.
 
-Este archivo permite cargar el modelo y el pipeline completo de transformación de datos de manera eficiente para realizar predicciones en tiempo real.
+El dataset inicial (`pisosBarcelona-21-04-2025-clean.csv`) fue sometido a un proceso de limpieza y estandarización antes de ser cargado en la base de datos PostgreSQL.
 
-## 5. Backend API (FastAPI)
+> ⚠️ Nota: Durante el preprocesamiento avanzado, se gestionaron los valores nulos y se aplicaron transformaciones para preparar los datos para el modelado.
 
-### 5.1. Descripción
+## 🧠 Modelado Predictivo
 
-Se desarrolló una API RESTful utilizando el framework FastAPI (basado en Python) para exponer las funcionalidades del modelo predictivo, la consulta de la base de datos y la generación de informes. Uvicorn se utiliza como servidor ASGI para ejecutar la aplicación FastAPI.
+En esta etapa crucial del proyecto, se construyó un modelo de aprendizaje automático para predecir el precio de las viviendas en Barcelona. Se seleccionó el algoritmo XGBoost Regressor debido a su alto rendimiento y capacidad para manejar relaciones complejas en los datos.
 
-### 5.2. Endpoints
+### ⚙️ Ingeniería de Características (Feature Engineering)
 
-* **`/predict/` (POST):**
-    * **Propósito:** Recibe las características de una vivienda en formato JSON según el modelo Pydantic `HouseFeaturesPredict`.
-    * **Proceso:** Carga el pipeline serializado desde `pipeline_idealista_completo.joblib`, aplica las transformaciones necesarias a los datos de entrada y utiliza el modelo XGBoost para predecir el precio. La predicción se devuelve deshaciendo la transformación logarítmica aplicada durante el entrenamiento.
-    * **Respuesta:** Un JSON con la predicción del precio.
-* **`/query_database/` (POST):**
-    * **Propósito:** Recibe una pregunta en lenguaje natural del usuario en formato JSON según el modelo Pydantic `QueryRequest`.
-    * **Proceso:** Utiliza el agente LangChain SQL configurado (ver sección 6) para procesar la pregunta, generar una consulta SQL, ejecutarla en la base de datos PostgreSQL y obtener una respuesta textual del modelo LLM.
-    * **Respuesta:** Un JSON con la respuesta del modelo de lenguaje.
-* **`/generate_simple_report/` (POST):**
-    * **Propósito:** Actúa como un intermediario para iniciar el workflow de generación de informes en n8n.
-    * **Proceso:** Realiza una petición HTTP (webhook) al endpoint configurado en el servicio n8n. Puede recibir opcionalmente un correo electrónico como parámetro.
-    * **Respuesta:** Un JSON indicando el estado de la solicitud.
+Se aplicó un extenso proceso de ingeniería de características detallado en el notebook `ModeloExport.ipynb`. Este incluyó:
 
-### 5.3. Configuración Adicional
+- Limpieza de datos y manejo de valores inconsistentes.
+- Imputación de valores nulos y creación de indicadores de valores faltantes.
+- Combinación de características existentes.
+- Ingeniería de características espaciales (distancia a POIs, clustering y PCA sobre coordenadas).
+- Codificación de variables categóricas (TargetEncoder).
+- Creación de características no lineales (Splines) e interacciones polinómicas.
+- Transformación logarítmica de la variable objetivo (`price`).
+- Filtrado de outliers.
+- Escalado de características numéricas (`StandardScaler`).
 
-* **CORS (Cross-Origin Resource Sharing):** Se configuró el middleware de CORS para permitir las peticiones provenientes del frontend React, que se ejecuta en un dominio diferente.
+### 🧪 Entrenamiento y Persistencia
 
-## 6. Consulta con Lenguaje Natural (LLM + LangChain + Ollama)
+El modelo XGBoost se entrenó utilizando los datos preprocesados. El pipeline completo de preprocesamiento y el modelo entrenado se guardaron en un archivo (`pipeline_idealista_completo.joblib`) utilizando la librería `joblib` para su posterior uso en la API.
 
-### 6.1. Descripción
+## 🗣️ Consulta con Lenguaje Natural (LLM + LangChain + Ollama)
 
-Se implementó una funcionalidad para permitir a los usuarios consultar la base de datos de viviendas utilizando lenguaje natural. Esto se logra mediante la integración de un modelo de lenguaje grande (LLM) ejecutado localmente con Ollama y la librería LangChain para la orquestación.
+Se implementó la capacidad de consultar la base de datos PostgreSQL utilizando lenguaje natural mediante la integración de:
 
-### 6.2. Tecnologías Utilizadas
+- **Ollama:** Para ejecutar localmente modelos de lenguaje como `llama3:8b` y `mixtral:8x7b-instruct-v0.1-q4_K_M`.
+- **LangChain:** Para orquestar la interacción con el LLM, conectar con la base de datos (a través de `SQLDatabase` y `SQLDatabaseToolkit`) y crear un agente SQL (`create_sql_agent` con `agent_type="openai-tools"`) capaz de traducir preguntas en lenguaje natural a consultas SQL y formular respuestas concisas en español.
 
-* **Ollama:** Un servicio en Docker que permite ejecutar modelos LLM de forma local. Se probaron los modelos `llama3:8b` y `mixtral:8x7b-instruct-v0.1-q4_K_M`.
-* **LangChain:** Una librería para construir aplicaciones basadas en LLMs. Se utilizaron los siguientes módulos:
-    * `ChatOllama`: Para la comunicación con el modelo LLM ejecutado por Ollama.
-    * `SQLDatabase`: Para establecer la conexión con la base de datos PostgreSQL y obtener el esquema de la tabla `pisos_barcelona`.
-    * `SQLDatabaseToolkit`: Un conjunto de herramientas para interactuar con la base de datos SQL.
-    * `create_sql_agent`: Una función para crear un agente que puede traducir preguntas en lenguaje natural a consultas SQL, ejecutarlas y formular una respuesta. Se configuró con `agent_type="openai-tools"`.
+## 📧 Automatización de Informes (n8n + Gemini/OpenAI)
 
-### 6.3. Flujo de la Consulta
+Se configuró un workflow en n8n para automatizar la generación y el envío de informes resumidos por correo electrónico. El workflow se activa mediante un webhook desde el backend y realiza los siguientes pasos:
 
-1.  El usuario introduce una pregunta en lenguaje natural a través de la interfaz de chat en el frontend.
-2.  El frontend envía esta pregunta al endpoint `/query_database/` del backend.
-3.  El backend recibe la pregunta y la pasa al agente LangChain SQL.
-4.  El agente utiliza el modelo LLM (a través de `ChatOllama`) y el esquema de la base de datos (a través de `SQLDatabaseToolkit`) para generar una consulta SQL relevante para la pregunta del usuario.
-5.  La consulta SQL se ejecuta en la base de datos PostgreSQL (a través de la conexión definida en `SQLDatabase`).
-6.  Los resultados de la consulta se devuelven al modelo LLM.
-7.  El modelo LLM formula una respuesta en lenguaje natural basada en los resultados de la consulta. Se personalizó el `suffix` del prompt del agente para asegurar respuestas concisas y en español.
-8.  La respuesta del LLM se envía de vuelta al frontend y se muestra al usuario en la interfaz de chat.
+1.  Consulta datos relevantes de PostgreSQL.
+2.  Formatea los datos para el LLM.
+3.  Llama a la API de un LLM externo (Google Gemini o OpenAI) para generar un informe en Markdown.
+4.  Envía el informe por correo electrónico utilizando el nodo "Send Email" de n8n.
 
-## 7. Automatización de Informes (n8n)
+## 💻 Frontend (React)
 
-### 7.1. Descripción
+La interfaz de usuario se desarrolló con React y la librería de componentes Material UI (MUI) para proporcionar una experiencia interactiva y responsiva. Se incluyen las siguientes secciones principales:
 
-Se implementó un workflow de automatización utilizando la plataforma n8n para generar informes resumidos sobre los datos de viviendas y enviarlos por correo electrónico a los usuarios que lo soliciten.
+- **Estimador de Precios:** Formulario para introducir características de la vivienda, integrado con un mapa interactivo (React Leaflet) que permite seleccionar la ubicación y visualizar el área de validez del modelo. Realiza peticiones al endpoint `/predict/` del backend.
+- **Consulta con IA:** Interfaz de chat modal (abierta con un botón) que permite a los usuarios hacer preguntas sobre los datos en lenguaje natural, las cuales se envían al endpoint `/query_database/`.
+- **Solicitud de Informe:** Sección con un campo para el correo electrónico y un botón para solicitar un informe, que activa el endpoint `/generate_simple_report/` del backend (o directamente el webhook de n8n).
 
-### 7.2. Configuración de n8n
+## 🐳 Despliegue (Docker)
 
-* **Contenedor:** Docker
-* **Trigger:** Nodo Webhook configurado para ser llamado por el endpoint `/generate_simple_report/` del backend (o directamente desde el frontend).
+La aplicación backend y sus dependencias (PostgreSQL, Ollama, n8n) se empaquetaron y orquestaron utilizando Docker y Docker Compose. Esto facilita el despliegue y la gestión de los diferentes servicios, asegurando la portabilidad y la consistencia del entorno. Se definieron volúmenes para la persistencia de datos y modelos, y se configuró una red interna (`housing_net`) para la comunicación entre los contenedores. La configuración se gestiona mediante variables de entorno en `docker-compose.yml`.
 
-### 7.3. Pasos del Workflow
+---
 
-1.  **Webhook:** Recibe la petición del backend (o frontend), que puede incluir una dirección de correo electrónico.
-2.  **Consulta a PostgreSQL:** Utiliza el nodo PostgreSQL de n8n para ejecutar consultas SQL predefinidas o dinámicas en la base de datos `pisos_barcelona`. Estas consultas se diseñan para obtener datos agregados o relevantes para el informe (ej., precio medio por distrito, distribución de tipos de vivienda, etc.).
-3.  **Formateo de Datos (Function Node):** Un nodo Function de JavaScript se utiliza para procesar y formatear los datos obtenidos de la base de datos en una estructura adecuada para ser utilizada por el LLM.
-4.  **Generación del Informe con LLM (HTTP Request / OpenAI Node):** Se realiza una llamada a una API LLM externa (Google Gemini o OpenAI) utilizando un nodo HTTP Request o el nodo específico de la plataforma LLM. Se pasa un prompt detallado junto con los datos formateados para instruir al LLM a generar un informe conciso en formato Markdown y en español, adecuado para ser incluido en un correo electrónico.
-5.  **Envío de Correo Electrónico (Send Email Node):** Utiliza el nodo "Send Email" de n8n, configurado con una cuenta de Gmail (vía OAuth2) o mediante SMTP con una contraseña de aplicación, para enviar el informe generado a la dirección de correo electrónico proporcionada en la petición inicial (o a una dirección por defecto si no se proporciona).
-
-## 8. Frontend (React)
-
-### 8.1. Descripción
-
-La interfaz de usuario de la plataforma se desarrolló como una Single Page Application (SPA) utilizando la librería React y el bundler Vite. Se priorizó la interactividad y una experiencia de usuario intuitiva.
-
-### 8.2. Librerías UI
-
-* **Material UI (MUI):** Se utilizó extensivamente para proporcionar componentes de interfaz de usuario estilizados y responsivos (Container, Paper, Grid, TextField, Button, Select, Checkbox, Accordion, Dialog, Alert, etc.).
-
-### 8.3. Mapa Interactivo (React Leaflet)
-
-* Se integró un mapa interactivo utilizando la librería React Leaflet, centrado en la ciudad de Barcelona.
-* Se visualiza un círculo con un radio de 15 km alrededor del centro de Barcelona para indicar el área de validez del modelo predictivo.
-* Los usuarios pueden hacer clic dentro de este círculo para colocar un marcador, lo que actualiza automáticamente los campos de latitud y longitud en el formulario del estimador de precios.
-* Se implementó una restricción para evitar la selección de puntos fuera del círculo, mostrando una advertencia visual cuando se intenta.
-
-### 8.4. Secciones de la Aplicación
-
-* **Estimador de Precios:**
-    * Un formulario organizado mediante componentes `Accordion` de MUI permite a los usuarios introducir las características de una vivienda (tamaño, habitaciones, baños, ubicación en el mapa, características adicionales como ascensor y parking, etc.).
-    * Los campos de latitud y longitud se actualizan automáticamente al interactuar con el mapa.
-    * Al enviar el formulario, se realiza una petición al endpoint `/predict/` del backend.
-    * La interfaz muestra el precio estimado o mensajes de error en caso de problemas con la predicción.
-* **Consulta con IA:**
-    * Un botón con un icono de bot (`SmartToyIcon`) abre un componente `Dialog` modal.
-    * Dentro del diálogo, se presenta una interfaz de chat donde los usuarios pueden escribir sus preguntas en lenguaje natural.
-    * Las preguntas se envían al endpoint `/query_database/` del backend.
-    * Las respuestas del agente LLM se muestran en la conversación dentro del diálogo.
-* **Solicitud de Informe:**
-    * Una sección dedicada permite a los usuarios introducir su dirección de correo electrónico.
-    * Un botón de "Solicitar Informe" envía una petición al endpoint `/generate_simple_report/` del backend (o directamente al webhook de n8n).
-    * Se muestra un mensaje de estado para informar al usuario sobre el éxito o el fallo de la solicitud.
-
-## 9. Despliegue (Docker)
-
-### 9.1. Descripción
-
-Toda la infraestructura de backend (base de datos PostgreSQL, servicio Ollama, backend FastAPI y plataforma n8n) se contenerizó utilizando Docker para facilitar el despliegue, la gestión y la escalabilidad de la aplicación.
-
-### 9.2. Docker Compose
-
-Se utiliza Docker Compose (`docker-compose.yml`) para definir y orquestar los diferentes servicios:
-
-* **`postgres_db`:** Contenedor para la base de datos PostgreSQL. Se configura un volumen (`postgres_data`) para la persistencia de los datos.
-* **`ollama`:** Contenedor para el servicio Ollama, encargado de ejecutar los modelos LLM localmente. Se define un volumen (`ollama_data`) para la persistencia de los modelos descargados.
-* **`backend`:** Contenedor para la aplicación FastAPI (backend). Se mapea el puerto necesario para la API y se configura para depender de los servicios `postgres_db` y `ollama`.
-* **`n8n`:** Contenedor para la plataforma de automatización n8n. Se mapea el puerto de la interfaz de n8n y se define un volumen (`n8n_data`) para la persistencia de los workflows y la configuración.
-
-### 9.3. Red Interna
-
-Se define una red interna de Docker (`housing_net`) para permitir la comunicación entre los contenedores utilizando sus nombres de servicio como nombres de host (ej., `postgres_db`, `ollama`, `backend`, `n8n`).
-
-### 9.4. Variables de Entorno
-
-La configuración sensible y específica del entorno (URLs de la base de datos, URLs de Ollama, nombres de los modelos LLM a utilizar, claves de API para servicios externos si se usaran) se gestiona mediante variables de entorno definidas en el archivo `docker-compose.yml`. Esto permite una configuración flexible y evita la codificación de información sensible directamente en el código.
-
-## 10. Conclusiones
-
-La plataforma web desarrollada proporciona un conjunto robusto de herramientas para el análisis y la predicción de precios de viviendas en Barcelona. La integración de un modelo predictivo avanzado, la capacidad de realizar consultas en lenguaje natural sobre el dataset y la automatización de la generación de informes ofrecen un valor significativo para usuarios interesados en el mercado inmobiliario. La arquitectura modular y la contenerización con Docker facilitan el despliegue, el mantenimiento y la futura expansión de la plataforma. El uso de tecnologías modernas y eficientes en el frontend y el backend garantiza una experiencia de usuario fluida y un rendimiento adecuado.
+Este documento proporciona una visión detallada de la arquitectura y las funcionalidades de la plataforma web de análisis y predicción de precios de viviendas en Barcelona. La combinación de inteligencia artificial, procesamiento del lenguaje natural y tecnologías web modernas ofrece una herramienta poderosa para la exploración y la toma de decisiones en el mercado inmobiliario.
