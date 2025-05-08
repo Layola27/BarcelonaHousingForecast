@@ -3,7 +3,7 @@
 ## 1. Introducción
 
 Este documento presenta la memoria técnica detallada de una plataforma web full-stack desarrollada para el análisis y la predicción de precios de viviendas en Barcelona y sus alrededores. La aplicación ofrece tres funcionalidades principales: la estimación del precio de una vivienda a partir de sus características, la consulta interactiva del conjunto de datos mediante lenguaje natural y la solicitud de un informe resumido generado por inteligencia artificial enviado por correo electrónico. El objetivo de esta memoria es documentar exhaustivamente la arquitectura, los componentes técnicos, las funcionalidades implementadas y las tecnologías utilizadas en el desarrollo de esta plataforma.
-
+![ChatGPT Image 10 abr 2025, 18_47_41](https://github.com/user-attachments/assets/2de13236-7fee-48e4-88db-0700255b4de4)
 ## 2. Arquitectura General
 
 La arquitectura de la plataforma se basa en un diseño modular y distribuido, facilitado por la contenerización con Docker. Los principales componentes que interactúan para ofrecer la funcionalidad completa son:
