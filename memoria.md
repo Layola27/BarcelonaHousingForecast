@@ -145,6 +145,9 @@ Se aplicó un extenso proceso de ingeniería de características detallado en el
 - Filtrado de outliers.
 - Escalado de características numéricas (`StandardScaler`).
 
+![ChatGPT Image 10 may 2025, 12_35_14](https://github.com/user-attachments/assets/5f202597-aa08-44e0-b357-00c17701141f)
+
+
 ### 🧪 Entrenamiento y Persistencia
 
 El modelo XGBoost se entrenó utilizando los datos preprocesados. El pipeline completo de preprocesamiento y el modelo entrenado se guardaron en un archivo (`pipeline_idealista_completo.joblib`) utilizando la librería `joblib` para su posterior uso en la API.
