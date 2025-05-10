@@ -1,0 +1,1 @@
+CREATE INDEX idx_pisos_barcelona_geom ON pisos_barcelona USING GIST (geometry);
