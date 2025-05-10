@@ -81,7 +81,8 @@ La solución combina técnicas de **procesamiento y análisis de datos**, **mach
 
 ## 🤖 FLUJO DEL PROYECTO
 
-![Diagrama del flujo del proyecto](https://github.com/user-attachments/assets/2de13236-7fee-48e4-88db-0700255b4de4)
+
+![ChatGPT Image 10 may 2025, 18_38_51](https://github.com/user-attachments/assets/933f2df9-d3aa-42e0-9e85-55c7082770c9)
 
 ## 🗂️ Descripción del Dataset
 
