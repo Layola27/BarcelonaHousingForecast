@@ -180,3 +180,5 @@ La aplicación backend y sus dependencias (PostgreSQL, Ollama, n8n) se empaqueta
 ---
 
 Este documento proporciona una visión detallada de la arquitectura y las funcionalidades de la plataforma web de análisis y predicción de precios de viviendas en Barcelona. La combinación de inteligencia artificial, procesamiento del lenguaje natural, visualización exploratoria con R, descubrimiento de modelos con Orange Data Mining y el uso de una base de datos geoespacial como PostgreSQL ofrece una herramienta poderosa para la exploración y la toma de decisiones en el mercado inmobiliario.
+
+
