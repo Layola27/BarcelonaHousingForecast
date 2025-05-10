@@ -1,29 +1,34 @@
+## Diagrama de Arquitectura del Proyecto
+
+Aquí se muestra la arquitectura general de la aplicación y sus componentes.
+
+```mermaid
 graph TD
     %% === Subgraph Definiciones ===
     subgraph "Usuario (Navegador)"
         direction LR
-        User[<img src='https://img.icons8.com/ios-glyphs/30/user-male-circle.png' width='20'/> Usuario]
-        ReactApp["<img src='https://img.icons8.com/color/48/react-native.png' width='25'/> Frontend React (localhost:5173)<br/>(App.jsx)"]
+        User[<img src='[https://img.icons8.com/ios-glyphs/30/user-male-circle.png](https://img.icons8.com/ios-glyphs/30/user-male-circle.png)' width='20'/> Usuario]
+        ReactApp["<img src='[https://img.icons8.com/color/48/react-native.png](https://img.icons8.com/color/48/react-native.png)' width='25'/> Frontend React (localhost:5173)<br/>(App.jsx)"]
     end
 
     subgraph "Infraestructura Dockerizada (Docker Compose)"
         direction LR
         subgraph "Servicio API Backend"
             direction TB
-            FastAPI["<img src='https://img.icons8.com/officel/40/python.png' width='25'/> API Backend (FastAPI)<br/>localhost:8000<br/>(main.py)"]
-            PredictorModel["<img src='https://img.icons8.com/fluency/48/data-configuration.png' width='20'/> Pipeline Predictor<br/>(.joblib)"]
-            SQLAgent["<img src='https://img.icons8.com/fluency/48/artificial-intelligence.png' width='20'/> Agente SQL (LangChain)"]
+            FastAPI["<img src='[https://img.icons8.com/officel/40/python.png](https://img.icons8.com/officel/40/python.png)' width='25'/> API Backend (FastAPI)<br/>localhost:8000<br/>(main.py)"]
+            PredictorModel["<img src='[https://img.icons8.com/fluency/48/data-configuration.png](https://img.icons8.com/fluency/48/data-configuration.png)' width='20'/> Pipeline Predictor<br/>(.joblib)"]
+            SQLAgent["<img src='[https://img.icons8.com/fluency/48/artificial-intelligence.png](https://img.icons8.com/fluency/48/artificial-intelligence.png)' width='20'/> Agente SQL (LangChain)"]
         end
 
         subgraph "Servicios de Datos y LLM Local"
             direction TB
-            PostgresDB["<img src='https://img.icons8.com/color/48/postgreesql.png' width='25'/> PostgreSQL DB<br/>localhost:5432<br/>(tabla: pisos_barcelona)"]
-            Ollama["<img src='https://ollama.com/public/ollama.png' width='25' style='background-color:white; padding:2px; border-radius:3px;'/> Ollama LLM Service<br/>localhost:11434<br/>(ej. Mixtral/Llama3)"]
+            PostgresDB["<img src='[https://img.icons8.com/color/48/postgreesql.png](https://img.icons8.com/color/48/postgreesql.png)' width='25'/> PostgreSQL DB<br/>localhost:5432<br/>(tabla: pisos_barcelona)"]
+            Ollama["<img src='[https://ollama.com/public/ollama.png](https://ollama.com/public/ollama.png)' width='25' style='background-color:white; padding:2px; border-radius:3px;'/> Ollama LLM Service<br/>localhost:11434<br/>(ej. Mixtral/Llama3)"]
         end
 
         subgraph "Servicio de Automatización"
             direction TB
-            N8N["<img src='https://raw.githubusercontent.com/n8n-io/n8n-docs/master/static/icon.png' width='25'/> n8n Workflows<br/>localhost:5678"]
+            N8N["<img src='[https://raw.githubusercontent.com/n8n-io/n8n-docs/master/static/icon.png](https://raw.githubusercontent.com/n8n-io/n8n-docs/master/static/icon.png)' width='25'/> n8n Workflows<br/>localhost:5678"]
             N8NWebhook["Webhook Trigger"]
             N8N_PGNode["PostgreSQL Node<br/>(DB Query)"]
             N8N_FormatNode["Function Node<br/>(Formatear Datos)"]
@@ -34,9 +39,9 @@ graph TD
 
     subgraph "Servicios Cloud Externos"
         direction TB
-        GeminiAPI["<img src='https://img.icons8.com/color/48/google-bard.png' width='25'/> Google Gemini API"]
-        EmailServiceProvider["<img src='https://img.icons8.com/color/48/gmail-new.png' width='25'/> Servicio de Email<br/>(ej. Gmail)"]
-        UserMailbox["<img src='https://img.icons8.com/fluency/48/mailbox-opened-flag-up.png' width='20'/> Bandeja Email Usuario"]
+        GeminiAPI["<img src='[https://img.icons8.com/color/48/google-bard.png](https://img.icons8.com/color/48/google-bard.png)' width='25'/> Google Gemini API"]
+        EmailServiceProvider["<img src='[https://img.icons8.com/color/48/gmail-new.png](https://img.icons8.com/color/48/gmail-new.png)' width='25'/> Servicio de Email<br/>(ej. Gmail)"]
+        UserMailbox["<img src='[https://img.icons8.com/fluency/48/mailbox-opened-flag-up.png](https://img.icons8.com/fluency/48/mailbox-opened-flag-up.png)' width='20'/> Bandeja Email Usuario"]
     end
 
     %% === Flujos de Interacción ===
