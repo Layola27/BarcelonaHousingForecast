@@ -1,13 +1,13 @@
-## Diagrama de Arquitectura del Proyecto
+# Diagrama de Flujo de Trabajo de la Aplicación
 
-Aquí se muestra la arquitectura general de la aplicación y sus componentes.
+Este diagrama ilustra los principales flujos de trabajo y la arquitectura de la aplicación.
 
 ```mermaid
 graph TD
     %% === Subgraph Definiciones ===
     subgraph "Usuario (Navegador)"
         direction LR
-        User[<img src='[https://img.icons8.com/ios-glyphs/30/user-male-circle.png](https://img.icons8.com/ios-glyphs/30/user-male-circle.png)' width='20'/> Usuario]
+        User["<img src='[https://img.icons8.com/ios-glyphs/30/user-male-circle.png](https://img.icons8.com/ios-glyphs/30/user-male-circle.png)' width='20'/> Usuario"]
         ReactApp["<img src='[https://img.icons8.com/color/48/react-native.png](https://img.icons8.com/color/48/react-native.png)' width='25'/> Frontend React (localhost:5173)<br/>(App.jsx)"]
     end
 
