@@ -1065,12 +1065,16 @@ Exportar a Hojas de cálculo
 
 ### Métricas Detalladas del Modelo Final (RandomForestRegressor):
 
-
+--- Evaluación Final del Modelo en Conjunto de Prueba (Escala Original) ---
+MAE  (Mean Absolute Error) : 68,804.19 €
+RMSE (Root Mean Squared Error): 137,169.68 €
+R²   (R-squared)           : 0.8706
 
 (Nota: Los valores del conjunto de entrenamiento ayudan a identificar el sobreajuste si son significativamente mejores que los del conjunto de prueba).
 
 ### Curvas de Aprendizaje (Learning Curves):
 Una curva de aprendizaje muestra el rendimiento del modelo en los conjuntos de entrenamiento y validación (o prueba) a medida que aumenta el número de ejemplos de entrenamiento. Son útiles para diagnosticar si el modelo se beneficiaría de más datos, o si sufre de alto sesgo (subajuste) o alta varianza (sobreajuste).
+
 
 ### Resultados de la Optimización de Hiperparámetros (si se realizó con GridSearchCV/RandomizedSearchCV):
 
