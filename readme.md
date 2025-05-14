@@ -416,7 +416,7 @@ A continuación, se describe la estructura del repositorio y el propósito de ca
 ### 5. Otros Archivos
 
 * **.vscode/settings.json**: Archivo de configuración para el editor Visual Studio Code.
-* **Orange/OrangeWorkflow.ows**: Archivo de flujo de trabajo de Orange.
+* **Orange/OrangeWorkflow.ows**: Replicación del modelo generado para las predicciones.
 
 ## 📈 Flujo de Trabajo del Proyecto
 
@@ -450,4 +450,4 @@ Este proyecto está licenciado bajo la licencia [MIT](LICENSE).
 
 ## 📧 Contacto
 
-Si tienes alguna pregunta o sugerencia, no dudes en ponerte en contacto conmigo a través de [tu_correo@example.com](tu_correo@example.com).
+Si tienes alguna pregunta o sugerencia, no dudes en ponerte en contacto conmigo a través de [tu_correo@example.com](glayolacvs@gmail.com).
