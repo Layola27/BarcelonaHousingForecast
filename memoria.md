@@ -27,55 +27,54 @@ Este documento detalla la metodología seguida, las herramientas empleadas, los 
 
 ## Tabla de Contenidos
 
-1.  [Introducción](#1-introducción)
-    1.1. [Contexto y Justificación](#11-contexto-y-justificación)
-    1.2. [Objetivos del Proyecto](#12-objetivos-del-proyecto)
-    1.3. [Alcance del Proyecto](#13-alcance-del-proyecto)
-2.  [Herramientas y Tecnologías Utilizadas](#2-herramientas-y-tecnologías-utilizadas)
-3.  [Metodología y Flujo de Trabajo](#3-metodología-y-flujo-de-trabajo)
-    3.1. [Descripción General del Flujo de Trabajo](#31-descripción-general-del-flujo-de-trabajo)
-    3.2. [Fase 1: Adquisición y Recopilación de Datos](#32-fase-1-adquisición-y-recopilación-de-datos)
-        3.2.1. [Fuente de Datos: API de Idealista](#321-fuente-de-datos-api-de-idealista)
-        3.2.2. [Proceso de Extracción](#322-proceso-de-extracción)
-    3.3. [Fase 2: Almacenamiento y Gestión de Datos](#33-fase-2-almacenamiento-y-gestión-de-datos)
-        3.3.1. [Diseño de la Base de Datos PostgreSQL](#331-diseño-de-la-base-de-datos-postgresql)
-        3.3.2. [Carga y Actualización de Datos](#332-carga-y-actualización-de-datos)
-        3.3.3. [Optimización Espacial](#333-optimización-espacial)
-    3.4. [Fase 3: Análisis Exploratorio de Datos (EDA)](#34-fase-3-análisis-exploratorio-de-datos-eda)
-        3.4.1. [EDA con Python y Jupyter Notebooks](#341-eda-con-python-y-jupyter-notebooks)
-        3.4.2. [Uso de Orange para Análisis Visual](#342-uso-de-orange-para-análisis-visual)
-    3.5. [Fase 4: Preprocesamiento de Datos](#35-fase-4-preprocesamiento-de-datos)
-        3.5.1. [Limpieza de Datos](#351-limpieza-de-datos)
-        3.5.2. [Transformación de Variables](#352-transformación-de-variables)
-        3.5.3. [Ingeniería de Características (Feature Engineering)](#353-ingeniería-de-características-feature-engineering)
-    3.6. [Fase 5: Modelado Predictivo](#36-fase-5-modelado-predictivo)
-        3.6.1. [Selección de Modelos de Machine Learning](#361-selección-de-modelos-de-machine-learning)
-        3.6.2. [Entrenamiento y Validación](#362-entrenamiento-y-validación)
-        3.6.3. [Optimización de Hiperparámetros](#363-optimización-de-hiperparámetros)
-        3.6.4. [Evaluación del Modelo Final](#364-evaluación-del-modelo-final)
-    3.7. [Fase 6: Exportación del Modelo](#37-fase-6-exportación-del-modelo)
-    3.8. [Fase 7: Ejemplo de Uso del Modelo Desplegado (Aplicación Web)](#38-fase-7-ejemplo-de-uso-del-modelo-desplegado-aplicación-web)
-        3.8.1. [Frontend (Interfaz de Usuario)](#381-frontend-interfaz-de-usuario)
-        3.8.2. [Backend (Servidor de Aplicación)](#382-backend-servidor-de-aplicación)
-        3.8.3. [Interacción Frontend-Backend](#383-interacción-frontend-backend)
-    3.9. [Fase 8: Visualización de Resultados (Alternativa)](#39-fase-8-visualización-de-resultados-alternativa)
-        3.9.1. [Visualizaciones Avanzadas con R](#391-visualizaciones-avanzadas-con-r)
-        3.9.2. [Dashboard Interactivo en Power BI](#392-dashboard-interactivo-en-power-bi)
-4.  [Estructura del Repositorio del Proyecto](#4-estructura-del-repositorio-del-proyecto)
-5.  [Resultados y Discusión](#5-resultados-y-discusión)
-    5.1. [Principales Hallazgos del Análisis Exploratorio](#51-principales-hallazgos-del-análisis-exploratorio)
-    5.2. [Rendimiento del Modelo Predictivo](#52-rendimiento-del-modelo-predictivo)
-    5.3. [Análisis de Pronósticos](#53-análisis-de-pronósticos)
-    5.4. [Limitaciones del Estudio](#54-limitaciones-del-estudio)
-6.  [Conclusiones](#6-conclusiones)
-7.  [Lecciones Aprendidas y Retos Superados](#7-lecciones-aprendidas-y-retos-superados)
-8.  [Trabajos Futuros y Líneas de Mejora](#8-trabajos-futuros-y-líneas-de-mejora)
-9.  [Referencias](#9-referencias)
-10. [Agradecimientos](#10-agradecimientos)
-11. [Apéndices](#11-apéndices)
-    11.1. [Apéndice A: Esquema Detallado de la Base de Datos](#111-apéndice-a-esquema-detallado-de-la-base-de-datos)
-    11.2. [Apéndice B: Scripts SQL Clave](#112-apéndice-b-scripts-sql-clave)
-    11.3. [Apéndice C: Métricas Detalladas de Evaluación del Modelo](#113-apéndice-c-métricas-detalladas-de-evaluación-del-modelo)
+1.  Introducción
+    1.1. Contexto y Justificación
+    1.2. Objetivos del Proyecto
+    1.3. Alcance del Proyecto
+2.  Herramientas y Tecnologías Utilizadas
+3.  Metodología y Flujo de Trabajo
+    3.1. Descripción General del Flujo de Trabajo
+    3.2. Fase 1: Adquisición y Recopilación de Datos
+        3.2.1. Fuente de Datos: API de Idealista
+        3.2.2. Proceso de Extracción
+    3.3. Fase 2: Almacenamiento y Gestión de Datos
+        3.3.1. Diseño de la Base de Datos PostgreSQL
+        3.3.2. Carga y Actualización de Datos
+        3.3.3. Optimización Espacial
+    3.4. Fase 3: Análisis Exploratorio de Datos (EDA)
+        3.4.1. EDA con Python y Jupyter Notebooks
+        3.4.2. Uso de Orange para Análisis Visual
+    3.5. Fase 4: Preprocesamiento de Datos
+        3.5.1. Limpieza de Datos
+        3.5.2. Transformación de Variables
+        3.5.3. Ingeniería de Características (Feature Engineering)
+    3.6. Fase 5: Modelado Predictivo
+        3.6.1. Selección de Modelos de Machine Learning
+        3.6.2. Entrenamiento y Validación
+        3.6.3. Optimización de Hiperparámetros
+        3.6.4. Evaluación del Modelo Final
+    3.7. Fase 6: Exportación del Modelo
+    3.8. Fase 7: Ejemplo de Uso del Modelo Desplegado (Aplicación Web)
+        3.8.1. Frontend (Interfaz de Usuario)
+        3.8.2. Backend (Servidor de Aplicación)
+        3.8.3. Interacción Frontend-Backend
+    3.9. Fase 8: Visualización de Resultados (Alternativa)
+        3.9.1. Visualizaciones Avanzadas con R
+        3.9.2. Dashboard Interactivo en Power BI
+4.  Estructura del Repositorio del Proyecto
+5.  Resultados y Discusión
+    5.1. Principales Hallazgos del Análisis Exploratorio
+    5.2. Rendimiento del Modelo Predictivo
+    5.3. Análisis de Pronósticos
+    5.4. Limitaciones del Estudio
+6.  Conclusiones
+7.  Lecciones Aprendidas y Retos Superados
+8.  Trabajos Futuros y Líneas de Mejora
+9.  Referencias
+10. Apéndices
+    10.1. Apéndice A: Esquema Detallado de la Base de Datos
+    10.2. Apéndice B: Scripts SQL Clave
+    10.3. Apéndice C: Métricas Detalladas de Evaluación del Modelo
 
 ---
 
