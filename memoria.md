@@ -536,8 +536,6 @@ Se calculan métricas clave:
 * **MAE (Error Absoluto Medio):** Proporciona el error promedio en euros.
 * **RMSE (Raíz del Error Cuadrático Medio):** Similar al MAE pero penaliza más los errores grandes.
 * **R² (Coeficiente de Determinación):** Indica la proporción de la varianza del precio explicada por el modelo.
-## 3.8. Fase 7: Ejemplo de Uso del Modelo Desplegado (Aplicación Web)
-Para demostrar la utilidad práctica del modelo predictivo y la base de datos construida, se ha desarrollado un prototipo de aplicación web. Esta aplicación consta de un frontend (interfaz de usuario) y un backend (servidor de aplicación) que trabajan conjuntamente.
 
 ```python
 # BLOQUE 10: Evaluación Final del Modelo
@@ -619,6 +617,9 @@ import os
 # print(f"   Componentes guardados: {list(pipeline_completo.keys())}")
 ```
 El archivo `.joblib` resultante (e.g., `pipeline_idealista_completo.joblib`) es autocontenido y contiene todo lo necesario. Un notebook complementario (o una función dentro de la aplicación) cargaría este archivo y utilizaría los componentes almacenados para preprocesar nuevos datos de entrada y luego realizar la predicción del precio, asegurando la coherencia con el proceso de entrenamiento. Este archivo es el artefacto clave para el backend de la aplicación web.
+
+## 3.8. Fase 7: Ejemplo de Uso del Modelo Desplegado (Aplicación Web)
+Para demostrar la utilidad práctica del modelo predictivo y la base de datos construida, se ha desarrollado un prototipo de aplicación web. Esta aplicación consta de un frontend (interfaz de usuario) y un backend (servidor de aplicación) que trabajan conjuntamente.
 
 ### 3.8.1. Frontend (Interfaz de Usuario)
 La interfaz de usuario ha sido desarrollada con React, utilizando componentes de Material-UI (MUI) para un diseño moderno y responsivo. Las principales funcionalidades ofrecidas al usuario son:
