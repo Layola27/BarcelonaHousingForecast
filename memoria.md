@@ -754,7 +754,7 @@ El repositorio del proyecto está organizado de la siguiente manera para facilit
 ├── memoria.md                           # Este documento (la memoria del proyecto)
 ├── readme.md                            # Instrucciones generales, resumen del proyecto, cómo ejecutarlo
 └── workflow.md                          # Descripción detallada del flujo de trabajo del proyecto
-
+```
 **Descripción de los directorios principales:**
 
 * **`backend/`**: Contiene todo el código fuente del servidor FastAPI, incluyendo el endpoint de predicción que carga el modelo `.joblib` y el endpoint del chat que interactúa con el agente LLM y la base de datos.
@@ -1061,30 +1061,11 @@ En esta sección se podrían incluir los contenidos completos de los scripts SQL
 ## 10.3. Apéndice C: Métricas Detalladas de Evaluación del Modelo
 Esta sección está destinada a presentar una visión más profunda del rendimiento del modelo predictivo final y, opcionalmente, de otros modelos que se hayan considerado durante la fase de experimentación.
 
-### Tabla Comparativa de Modelos Explorados (Ejemplo):
-(Si se exploraron múltiples algoritmos antes de seleccionar el RandomForestRegressor final)
-
-| Modelo              | MAE (Test) | RMSE (Test) | R² (Test) | Tiempo Entrenamiento | Complejidad / Interpretabilidad |
-|---------------------|------------|-------------|-----------|----------------------|---------------------------------|
-| Regresión Lineal    | [VALOR]    | [VALOR]     | [VALOR]   | [VALOR]              | Baja / Alta                     |
-| Decision Tree       | [VALOR]    | [VALOR]     | [VALOR]   | [VALOR]              | Media / Media-Alta              |
-| Random Forest       | [VALOR]    | [VALOR]     | [VALOR]   | [VALOR]              | Alta / Media-Baja               |
-| Gradient Boosting   | [VALOR]    | [VALOR]     | [VALOR]   | [VALOR]              | Alta / Baja                     |
-| XGBoost             | [VALOR]    | [VALOR]     | [VALOR]   | [VALOR]              | Alta / Baja                     |
-
 Exportar a Hojas de cálculo
 
 ### Métricas Detalladas del Modelo Final (RandomForestRegressor):
 
-| Métrica                         | Valor en Conjunto de Entrenamiento | Valor en Conjunto de Prueba | (Opcional) Valor en Conjunto de Extrapolación |
-|---------------------------------|------------------------------------|-----------------------------|-----------------------------------------------|
-| MAE (Error Absoluto Medio)      | [VALOR MAE Train] €                | [VALOR MAE Test] €          | [VALOR MAE Extra] €                           |
-| MSE (Error Cuadrático Medio)    | [VALOR MSE Train]                  | [VALOR MSE Test]            | [VALOR MSE Extra]                             |
-| RMSE (Raíz del Error Cuadrático)| [VALOR RMSE Train] €               | [VALOR RMSE Test] €         | [VALOR RMSE Extra] €                          |
-| R² (Coeficiente de Determinación)| [VALOR R² Train]                 | [VALOR R² Test]             | [VALOR R² Extra]                              |
-| MAPE (Error % Absoluto Medio)   | [VALOR MAPE Train] %               | [VALOR MAPE Test] %         | [VALOR MAPE Extra] %                          |
 
-Exportar a Hojas de cálculo
 
 (Nota: Los valores del conjunto de entrenamiento ayudan a identificar el sobreajuste si son significativamente mejores que los del conjunto de prueba).
 
@@ -1094,33 +1075,13 @@ Una curva de aprendizaje muestra el rendimiento del modelo en los conjuntos de e
 ### Resultados de la Optimización de Hiperparámetros (si se realizó con GridSearchCV/RandomizedSearchCV):
 
 **Mejores Hiperparámetros Encontrados:**
-* `n_estimators`: [VALOR]
-* `max_depth`: [VALOR]
-* `min_samples_split`: [VALOR]
-* `min_samples_leaf`: [VALOR]
-* `max_features`: [VALOR]
-* (Otros hiperparámetros relevantes)
+
 
 Score Obtenido con los Mejores Hiperparámetros (en validación cruzada): [VALOR, e.g., R² de CV]
 
 ### Análisis de Importancia de Características Detallado:
 Además del gráfico de barras presentado en la Sección 5.2, aquí se podría incluir una tabla con los valores numéricos de importancia para las N características principales.
 
-| Característica         | Importancia (e.g., Gini Importance normalizada) |
-|------------------------|-------------------------------------------------|
-| size                   | [VALOR]                                         |
-| longitude              | [VALOR]                                         |
-| latitude               | [VALOR]                                         |
-| district_encoded       | [VALOR]                                         |
-| neighborhood_encoded   | [VALOR]                                         |
-| rooms                  | [VALOR]                                         |
-| bathrooms              | [VALOR]                                         |
-| floor_numeric          | [VALOR]                                         |
-| ...                    | ...                                             |
-
-Exportar a Hojas de cálculo
-
-(Este apéndice proporciona una transparencia adicional sobre el proceso de modelado y la robustez de los resultados presentados).
 
 ---
 **Fin de la Memoria**
