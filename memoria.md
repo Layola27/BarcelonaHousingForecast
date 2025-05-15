@@ -729,19 +729,18 @@ Ejemplo graficos:
 
 
 ### 3.9.2. Dashboard Interactivo en Power BI (`BarcelonaHousingForecastBI.pbix`)
-El archivo `BarcelonaHousingForecastBI.pbix` (si se desarrolla) contendría un dashboard en Power BI. Esta herramienta de Business Intelligence permite crear informes interactivos y cuadros de mando para la exploración de los datos y los resultados del modelo. Un dashboard típico podría incluir:
+El archivo `BarcelonaHousingForecastBI.pbix` (si se desarrolla) contendría un dashboard en Power BI. Esta herramienta de Business Intelligence permite crear informes interactivos y cuadros de mando para la exploración de los datos y los resultados del modelo.
 
 * **Indicadores Clave de Rendimiento (KPIs):** Precio medio de venta, número de propiedades analizadas, ticket medio, métricas de error del modelo (MAE, RMSE), etc.
-* **Filtros Interactivos:** Permitir a los usuarios segmentar y explorar los datos por distrito, barrio, tipo de propiedad, rango de precios, número de habitaciones, etc.
+* **Filtros Interactivos:** Permitir filtrar zonas segmentar y explorar los datos por distrito, barrio.
 * **Visualizaciones de Datos:**
     * **Mapas Interactivos:** Mostrando la ubicación de las viviendas, con colores o tamaños de puntos representando el precio o alguna otra variable. Posibilidad de hacer drill-down geográfico.
     * **Gráficos de Tendencias:** Evolución de precios medios (si hay componente temporal).
     * **Distribuciones:** Histogramas o gráficos de densidad para precios, superficies, etc.
-    * **Comparativas:** Gráficos de barras o box plots para comparar precios o características entre diferentes barrios o tipos de vivienda.
-* **Análisis de Predicciones del Modelo:**
-    * Comparación visual de valores predichos vs. valores reales.
-    * Distribución de los errores de predicción.
-    * Identificación de las propiedades donde el modelo tiene mayor o menor acierto.
+    * **Comparativas:** Gráficos de barras o para comparar precios o características entre diferentes barrios o tipos de vivienda.
+    * 
+<img width="1137" alt="image" src="https://github.com/user-attachments/assets/8c207aec-c0be-4c6c-bba8-2ae459a84466" />
+
  
 ---
 ### Estructura del Repositorio del Proyecto
