@@ -739,7 +739,7 @@ El archivo `BarcelonaHousingForecastBI.pbix` (si se desarrolla) contendría un d
     * Identificación de las propiedades donde el modelo tiene mayor o menor acierto.
  
 ---
-### SECCIÓN: 4. Estructura del Repositorio del Proyecto
+### Estructura del Repositorio del Proyecto
 ```markdown
 ## 4. Estructura del Repositorio del Proyecto
 
@@ -809,6 +809,81 @@ El repositorio del proyecto está organizado de la siguiente manera para facilit
 * **Archivos Raíz**: Incluyen la documentación principal del proyecto (`memoria.md`, `readme.md`, `workflow.md`), archivos de configuración de Git, y opcionalmente el dashboard de Power BI si se utiliza esa herramienta.
 
 El archivo `readme.md` es crucial, ya que debe proporcionar una visión general concisa del proyecto, las instrucciones de instalación de dependencias (tanto para el backend como para el frontend), cómo ejecutar los diferentes componentes (base de datos, backend, frontend) y una breve descripción de los contenidos del repositorio. El `workflow.md` detalla la secuencia lógica de ejecución de los scripts y las dependencias entre ellos para la parte de análisis y modelado.
+
+### SECCIÓN: 4. Despliegue Detallado de la Aplicación con Docker y Docker Compose
+
+La arquitectura de la aplicación se define y gestiona a través de Docker Compose, una herramienta para definir y ejecutar aplicaciones Docker multi-contenedor. El archivo `docker-compose.yml` es el corazón de esta configuración, describiendo los servicios, redes y volúmenes que componen el sistema. A continuación, se detalla cada componente del despliegue:
+
+#### Visión General del Entorno Orquestado
+
+El sistema está compuesto por varios servicios interdependientes que colaboran para ofrecer la funcionalidad completa de la aplicación. Estos servicios incluyen una base de datos, un motor de Modelos de Lenguaje Grandes (LLM), el backend de la aplicación y una herramienta de automatización. Todos los servicios están configurados para reiniciarse automáticamente (`restart: unless-stopped`) a menos que se detengan explícitamente, garantizando una alta disponibilidad. La comunicación entre ellos se facilita a través de una red Docker personalizada, y la persistencia de los datos se logra mediante volúmenes nombrados.
+
+#### Servicios Definidos
+
+1.  **Servicio de Base de Datos PostgreSQL (`postgres_db`)**
+    * **Imagen Docker:** Se utiliza `postgres:15`, una versión específica y robusta del popular sistema de gestión de bases de datos relacionales PostgreSQL.
+    * **Nombre del Contenedor:** `housing_postgres_db` para una fácil identificación.
+    * **Configuración de Entorno:**
+        * `POSTGRES_DB: housing_db`: Define el nombre de la base de datos principal.
+        * `POSTGRES_USER: user_test`: Establece el usuario por defecto. **Es crucial cambiar este valor y la contraseña en un entorno de producción.**
+        * `POSTGRES_PASSWORD: password_test`: Establece la contraseña para el usuario. **Es crucial cambiar este valor en un entorno de producción.**
+    * **Volúmenes:**
+        * `postgres_data:/var/lib/postgresql/data`: Se monta un volumen nombrado (`postgres_data`) en el directorio donde PostgreSQL almacena sus datos. Esto asegura que los datos de la base de datos persistan incluso si el contenedor se detiene o se elimina.
+        * Las líneas comentadas para `init.sql` y un archivo CSV (`./data/init.sql:/docker-entrypoint-initdb.d/init.sql` y `./data/tu_dataset_completo.csv:/docker-entrypoint-initdb.d/tu_dataset_completo.csv`) indican la posibilidad de ejecutar scripts de inicialización y cargar datos automáticamente al crear la base de datos por primera vez.
+    * **Mapeo de Puertos:** `5432:5432` expone el puerto estándar de PostgreSQL del contenedor al mismo puerto en la máquina anfitriona, permitiendo la conexión desde herramientas externas o el propio anfitrión.
+    * **Red:** Conectado a `housing_net`.
+
+2.  **Servicio de Modelo de Lenguaje Grande (`ollama`)**
+    * **Imagen Docker:** Se emplea `ollama/ollama:latest`, que proporciona una plataforma para ejecutar y gestionar modelos de lenguaje grandes localmente.
+    * **Nombre del Contenedor:** `housing_ollama`.
+    * **Volúmenes:** `ollama_data:/root/.ollama` utiliza un volumen nombrado para almacenar los modelos descargados y otros datos de configuración de Ollama, evitando la necesidad de redescargar modelos grandes tras reinicios.
+    * **Mapeo de Puertos:** `11434:11434` expone el puerto estándar de Ollama para la interacción con la API del LLM.
+    * **Red:** Conectado a `housing_net`.
+
+3.  **Servicio de Backend (`backend`)**
+    * **Nombre del Contenedor:** `housing_backend_api`.
+    * **Construcción (Build):** Se construye a partir de un `Dockerfile` ubicado en el directorio `./backend` (`context: ./backend`). Esto indica que es una aplicación personalizada, probablemente una API REST desarrollada con un framework como FastAPI en Python.
+    * **Configuración de Entorno:**
+        * `DATABASE_URL: postgresql+psycopg2://user_test:password_test@postgres_db:5432/housing_db`: Define la cadena de conexión a la base de datos PostgreSQL. Utiliza el nombre del servicio (`postgres_db`) para la resolución de DNS dentro de la red Docker.
+        * `GOOGLE_API_KEY: ${GOOGLE_API_KEY_FROM_ENV}`: Se espera que la clave API de Google se proporcione a través de una variable de entorno en el anfitrión (leída desde un archivo `.env` no versionado, por seguridad). Esto es crucial para acceder a servicios de Google como Gemini.
+        * Las variables comentadas (`OLLAMA_BASE_URL` y `OLLAMA_MODEL`) sugieren una integración opcional o en desarrollo con el servicio `ollama`, permitiendo al backend interactuar con los LLMs.
+    * **Mapeo de Puertos:** `8000:8000` expone el puerto de la API del backend, un puerto común para aplicaciones web.
+    * **Dependencias (`depends_on`):**
+        * `postgres_db: { condition: service_started }`: Asegura que el servicio `backend` solo se inicie una vez que el servicio `postgres_db` esté completamente iniciado y listo para aceptar conexiones. Esto previene errores de conexión al arrancar.
+        * La dependencia comentada de `ollama` sugiere que, si se activa, el backend también esperaría a que el servicio Ollama esté disponible.
+    * **Volúmenes:** `- ./backend:/app`: Monta el directorio local `./backend` en el directorio `/app` dentro del contenedor. Esto es muy útil para el desarrollo, ya que permite que los cambios en el código fuente se reflejen inmediatamente en la aplicación en ejecución sin necesidad de reconstruir la imagen (si se usa con herramientas de recarga en caliente como Uvicorn con `--reload`).
+    * **Red:** Conectado a `housing_net`.
+
+4.  **Servicio de Automatización (`n8n`)**
+    * **Imagen Docker:** `n8nio/n8n` es una herramienta de automatización de flujos de trabajo de código abierto.
+    * **Nombre del Contenedor:** `housing_n8n`.
+    * **Mapeo de Puertos:** `5678:5678` expone la interfaz web y la API de n8n.
+    * **Configuración de Entorno:**
+        * `GENERIC_TIMEZONE=Europe/Madrid`: Configura la zona horaria para la correcta ejecución de flujos de trabajo basados en tiempo.
+        * `N8N_WEBHOOK_CORS_ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000`: Configura los orígenes permitidos para las solicitudes CORS a los webhooks de n8n, esencial si se interactúa con frontends que se ejecutan en esos puertos.
+    * **Volúmenes:** `n8n_data:/home/node/.n8n` utiliza un volumen nombrado para almacenar los flujos de trabajo, credenciales y otros datos de configuración de n8n.
+    * **Red:** Conectado a `housing_net`.
+    * **Dependencias (`depends_on`):** Depende del servicio `backend`, lo que podría implicar que n8n necesita que la API del backend esté operativa para algunos de sus flujos de trabajo o configuraciones iniciales.
+
+#### Gestión de Datos Persistentes (Volúmenes)
+
+Se definen tres volúmenes nombrados gestionados por Docker:
+* `postgres_data`: Almacena los datos de la base de datos PostgreSQL.
+* `ollama_data`: Almacena los modelos de lenguaje y la configuración de Ollama.
+* `n8n_data`: Almacena los datos y la configuración de n8n.
+
+El uso de volúmenes nombrados es una buena práctica ya que desacopla el ciclo de vida de los datos del ciclo de vida de los contenedores. Los datos persisten incluso si los contenedores se eliminan y se vuelven a crear, lo que es fundamental para bases de datos, modelos descargados y configuraciones de usuario.
+
+#### Configuración de Red
+
+Se define una red personalizada de tipo `bridge` llamada `housing_net`:
+* `housing_net: { driver: bridge }`
+
+Utilizar una red de puente personalizada ofrece varias ventajas sobre la red `bridge` por defecto:
+* **Aislamiento Mejorado:** Los contenedores en una red personalizada están aislados de otras redes (incluida la predeterminada) a menos que se conecten explícitamente.
+* **Resolución de DNS por Nombre de Servicio:** Dentro de esta red, los contenedores pueden descubrirse y comunicarse entre sí utilizando sus nombres de servicio definidos en `docker-compose.yml` (por ejemplo, el backend puede acceder a la base de datos en `postgres_db:5432`). Esto simplifica la configuración de la comunicación entre servicios.
+
+En resumen, este `docker-compose.yml` describe una aplicación robusta y modular, aprovechando las características de Docker para el aislamiento, la persistencia de datos, la comunicación entre servicios y la facilidad de despliegue y desarrollo.
 
 ## 5. Resultados y Discusión
 
