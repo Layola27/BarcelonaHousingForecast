@@ -254,14 +254,26 @@ El notebook `1.IdealistaAPI.ipynb` es el responsable de esta fase. Su lógica pr
 ### 3.3. Fase 2: Almacenamiento y Gestión de Datos
 
 Una vez adquiridos, los datos se integran, almacenan y gestionan en una base de datos PostgreSQL.
+PostgreSQL tiene la capacidad de crear y almacenar variables geoespaciales gracias a su libreria PostGIS lo que lo hace perfecto para este tipo de datos.
 
 #### 3.3.1. Diseño de la Base de Datos PostgreSQL (`PostgreSQL/CrearTabla.sql`)
+
 
 Se diseñó un esquema de base de datos relacional para albergar los datos de las viviendas. El script `CrearTabla.sql` define la estructura de la tabla principal (e.g., `pisos_barcelona`), especificando:
 * Nombres de las columnas.
 * Tipos de datos apropiados (e.g., `VARCHAR`, `INTEGER`, `NUMERIC`, `BOOLEAN`, `TIMESTAMP`).
 * Para datos geoespaciales (latitud, longitud), se utiliza el tipo `GEOMETRY` de PostGIS para almacenar puntos, lo que permite consultas espaciales eficientes.
 * Restricciones como claves primarias (`id_interno`), unicidad (`propertyCode`), y `NOT NULL` donde sea aplicable.
+
+#### 3.3.2. Diseño de la Base de Datos PostgreSQL (`PostgreSQL/CrearIndiceEspacial.sql`)
+
+* Script que crea los indices geoespaciales para trabajar con las variables latitud y longitud del dataset.
+
+#### 3.3.2. Diseño de la Base de Datos PostgreSQL (`PostgreSQL/PasarDatos.sql`)
+
+* Una vez creada la base de datos se agregan los valores del csv ya preprocesdo
+
+Tras acabar esta secuencia se crea una tabla de datos actualizada y se almacena la anterior con la fecha (por si se requiere rollback).
 
 ### 3.4. Fase 3: Análisis Exploratorio de Datos (EDA)
 El EDA es fundamental para comprender las características de los datos, descubrir patrones, identificar anomalías y formular hipótesis antes de proceder al modelado.
@@ -277,12 +289,22 @@ El notebook `Aux.EDA.ipynb` se dedica a este fin. Las tareas típicas incluyen:
 * **Análisis de Valores Faltantes:** Identificación y visualización del patrón de datos ausentes (e.g., usando `missingno`).
 
 #### 3.4.2. Uso de Orange para Análisis Visual (Orange/OrangeWorkflow.ows)
-El archivo `OrangeWorkflow.ows` indica que se utilizó Orange, un software de minería de datos con una interfaz visual potente. Su contribución al EDA podría incluir:
+Tipo de minado: Minado de modelos de regresión y clasificación
+Sequencia del workflow:
+    -Carga de los datos
+    -Limpieza e imputación
+    -OneHotEcoder
+    -Separación Interplación/Extrapolación
+    -Separación Train/Test dentro de interpolación
+    -Entrenamiento de los modelos RF Forest y XGBOOST
+    -Evaluación de los modelos (En train/test)
+    -Evaluación de los modelos (En interpolación/extrapolación)
+    
+Replicación del Modelo con orange datamining: 
+![image](https://github.com/user-attachments/assets/83d3b0ea-0d73-411e-8393-709063c47762)
+Metricas del modelo en Orange Datamining:
+![image](https://github.com/user-attachments/assets/473ee3f1-b156-4414-923e-bdf3356d3f81)
 
-* **Carga Interactiva de Datos:** Conexión directa a la base de datos o carga desde archivos.
-* **Visualizaciones Interactivas:** Creación rápida de distribuciones, scatter plots, box plots, etc., con la capacidad de seleccionar subconjuntos de datos y ver cómo se reflejan en otras visualizaciones.
-* **Análisis de Componentes Principales (PCA) o t-SNE:** Para reducción de dimensionalidad y visualización de datos de alta dimensionalidad.
-* **Clustering Visual:** Exploración de agrupaciones naturales en los datos.
 
 Se debe describir qué tipo de análisis específico se realizó con Orange y qué insights se obtuvieron a través de su interfaz visual.
 
@@ -673,12 +695,31 @@ Esta arquitectura modular y desacoplada permite un desarrollo y mantenimiento m�
 Además de la aplicación web interactiva, los resultados y análisis del proyecto se pueden explorar mediante otras herramientas visuales si se requiere un análisis más profundo o una presentación diferente para stakeholders específicos.
 
 ### 3.9.1. Visualizaciones Avanzadas con R (`Scripts/Graficaciones.R`)
-El script `Graficaciones.R` puede emplearse para generar visualizaciones estadísticas más detalladas, personalizadas o que aprovechen paquetes gráficos específicos de R (como `ggplot2`, `sf` para mapas temáticos, `plotly` para interactividad, etc.). Estas podrían incluir:
 
-* Mapas temáticos (coropletas) mostrando la distribución de precios medios, densidad de propiedades, o la variación de alguna característica por barrios o distritos.
-* Gráficos estadísticos especializados (violín plots, ECDF plots, FACET Grids).
-* Análisis de series temporales y sus componentes (tendencia, estacionalidad) si los datos tuvieran una dimensión temporal significativa y bien estructurada.
-* Comparativas detalladas entre predicciones y valores reales, analizando errores por segmentos.
+El script `Graficaciones.R` ha sido desarrollado para llevar a cabo un análisis exploratorio del dataset. Las principales funcionalidades del script incluyen:
+
+1.  **Carga de Librerías:** Importa paquetes esenciales como `readr` para la lectura de datos, `dplyr` y `tidyr` para la manipulación de datos, `ggplot2` para la creación de gráficos, `scales` para el formateo de ejes, `viridis` para paletas de colores, `ggcorrplot` para mapas de calor de correlaciones, `patchwork` para combinar gráficos y `lubridate` para el manejo de fechas.
+2.  **Carga de Datos:** Lee un archivo CSV (`pisosBarcelona-10-05-2025-clean.csv`) que contiene la información inmobiliaria, realizando una verificación de existencia del archivo y manejo de errores durante la carga.
+3.  **Limpieza y Preparación de Datos:**
+    * Renombra columnas para mayor claridad (ej. `priceByArea` a `price_per_m2`).
+    * Calcula `price_per_m2` si no existe, a partir de `price` y `size`.
+    * Convierte columnas a tipos de datos apropiados (numérico, factor, lógico a factor Sí/No).
+    * Maneja valores ausentes en columnas clave (`price`, `size`).
+4.  **Visualización de Datos:**
+    * Establece un tema visual coherente para todos los gráficos.
+    * Crea un directorio para guardar los gráficos generados.
+    * Define una función para guardar los gráficos en formato PNG.
+    * Genera una variedad de visualizaciones, entre ellas:
+        * Histogramas y boxplots de precios y áreas (tamaño).
+        * Gráfico de dispersión de precio vs. área con línea de regresión.
+        * Histograma de precio por metro cuadrado.
+        * Boxplots de precios agrupados por número de habitaciones, baños, distrito y estado de la propiedad.
+        * Boxplot de precios según la presencia de ascensor.
+        * Mapa de calor de correlaciones entre variables numéricas.
+    * Cada gráfico se muestra en una ventana individual si se ejecuta en un entorno interactivo y se guarda como archivo de imagen.
+5.  **Combinación de Gráficos:** Utiliza `patchwork` para combinar una selección de los gráficos más relevantes en un panel resumen, proporcionando una visión general del análisis.
+
+El script está diseñado para ser robusto, incluyendo verificaciones de la existencia de columnas, manejo de datos faltantes y filtrado de datos atípicos (outliers) para mejorar la claridad de las visualizaciones. Además, proporciona retroalimentación en la consola sobre los pasos realizados y posibles advertencias.
 
 ### 3.9.2. Dashboard Interactivo en Power BI (`BarcelonaHousingForecastBI.pbix`)
 El archivo `BarcelonaHousingForecastBI.pbix` (si se desarrolla) contendría un dashboard en Power BI. Esta herramienta de Business Intelligence permite crear informes interactivos y cuadros de mando para la exploración de los datos y los resultados del modelo. Un dashboard típico podría incluir:
@@ -802,8 +843,8 @@ La distribución de los residuos (diferencia entre precios reales y predichos) s
 
 **Importancia de Características:**
 Las características más influyentes en las predicciones del modelo `RandomForestRegressor` fueron:
-1.  `size` (Superficie)
-2.  `longitude` / `latitude` (Ubicación geográfica)
+1.  `longitude` / `latitude` (Ubicación geográfica)
+2.  `size` (Superficie)
 3.  `district` / `neighborhood` (codificados mediante Target Encoding)
 4.  `rooms` (Número de habitaciones)
 5.  `bathrooms` (Número de baños)
@@ -811,7 +852,7 @@ Las características más influyentes en las predicciones del modelo `RandomFore
 
 Esto confirma la intuición de que la superficie y la ubicación son los principales determinantes del precio, seguidos por la distribución interna de la vivienda.
 
-### 5.3. Análisis de Pronósticos
+### 5.3. Uso del modelo Análisis de Pronósticos
 
 Los pronósticos generados por el modelo se utilizan principalmente a través de la **aplicación web desarrollada**:
 * Los usuarios pueden introducir las características de una vivienda en el `ValuationForm.jsx` y obtener una estimación de precio instantánea. Esto proporciona una herramienta práctica para compradores, vendedores o curiosos del mercado.
