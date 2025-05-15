@@ -723,6 +723,11 @@ El script `Graficaciones.R` ha sido desarrollado para llevar a cabo un análisis
 
 El script está diseñado para ser robusto, incluyendo verificaciones de la existencia de columnas, manejo de datos faltantes y filtrado de datos atípicos (outliers) para mejorar la claridad de las visualizaciones. Además, proporciona retroalimentación en la consola sobre los pasos realizados y posibles advertencias.
 
+Ejemplo graficos:
+
+  *![image](https://github.com/user-attachments/assets/80173fc4-8079-4b53-b530-aa63c2489c21)
+
+
 ### 3.9.2. Dashboard Interactivo en Power BI (`BarcelonaHousingForecastBI.pbix`)
 El archivo `BarcelonaHousingForecastBI.pbix` (si se desarrolla) contendría un dashboard en Power BI. Esta herramienta de Business Intelligence permite crear informes interactivos y cuadros de mando para la exploración de los datos y los resultados del modelo. Un dashboard típico podría incluir:
 
