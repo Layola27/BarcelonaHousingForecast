@@ -289,22 +289,24 @@ El notebook `Aux.EDA.ipynb` se dedica a este fin. Las tareas típicas incluyen:
 * **Análisis de Valores Faltantes:** Identificación y visualización del patrón de datos ausentes (e.g., usando `missingno`).
 
 #### 3.4.2. Uso de Orange para Análisis Visual (Orange/OrangeWorkflow.ows)
-Tipo de minado: Minado de modelos de regresión y clasificación
-Sequencia del workflow:
-    -Carga de los datos
-    -Limpieza e imputación
-    -OneHotEcoder
-    -Separación Interplación/Extrapolación
-    -Separación Train/Test dentro de interpolación
-    -Entrenamiento de los modelos RF Forest y XGBOOST
-    -Evaluación de los modelos (En train/test)
-    -Evaluación de los modelos (En interpolación/extrapolación)
-    
-Replicación del Modelo con orange datamining: 
-![image](https://github.com/user-attachments/assets/83d3b0ea-0d73-411e-8393-709063c47762)
-Metricas del modelo en Orange Datamining:
-![image](https://github.com/user-attachments/assets/473ee3f1-b156-4414-923e-bdf3356d3f81)
 
+**Tipo de minado:** Minado de modelos de regresión y clasificación
+
+**Secuencia del workflow:**
+* Carga de los datos
+* Limpieza e imputación
+* OneHotEncoder
+* Separación Interpolación/Extrapolación
+* Separación Train/Test dentro de interpolación
+* Entrenamiento de los modelos Random Forest (RF) y XGBoost
+* Evaluación de los modelos (en train/test)
+* Evaluación de los modelos (en interpolación/extrapolación)
+
+**Replicación del Modelo con Orange Data Mining:**
+![image](https://github.com/user-attachments/assets/83d3b0ea-0d73-411e-8393-709063c47762)
+
+**Métricas del modelo en Orange Data Mining:**
+![image](https://github.com/user-attachments/assets/473ee3f1-b156-4414-923e-bdf3356d3f81)
 
 Se debe describir qué tipo de análisis específico se realizó con Orange y qué insights se obtuvieron a través de su interfaz visual.
 
