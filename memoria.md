@@ -933,7 +933,7 @@ El Análisis Exploratorio de Datos (EDA), realizado principalmente mediante `Scr
 
 ### 5.2. Rendimiento del Modelo Predictivo
 
-El modelo final, un `RandomForestRegressor` encapsulado en el pipeline `pipeline_idealista_completo_v2.joblib` (entrenado y evaluado en `Scripts/4ModeloExport.ipynb`), demostró el siguiente rendimiento en el conjunto de prueba (datos no vistos durante el entrenamiento):
+El modelo final, un `XGBOOST` encapsulado en el pipeline `pipeline_idealista_completo.joblib` (entrenado y evaluado en `Scripts/4ModeloExport.ipynb`), demostró el siguiente rendimiento en el conjunto de prueba (datos no vistos durante el entrenamiento):
 
 MAE  (Mean Absolute Error) : 68,804.19 €
 RMSE (Root Mean Squared Error): 137,169.68 €
@@ -1341,43 +1341,97 @@ CREATE INDEX idx_pisos_barcelona_geom ON pisos_barcelona USING GIST (geometry);
 
 Al crear este índice GIST en la columna `geometry`, las consultas que involucren operaciones espaciales (por ejemplo, buscar propiedades dentro de un radio determinado, encontrar la propiedad más cercana a un punto, etc.) se ejecutarán significativamente más rápido, ya que el sistema podrá utilizar el índice para localizar los datos relevantes de manera eficiente en lugar de tener que escanear toda la tabla.
 
-
 ## 10.3. Apéndice C: Métricas Detalladas de Evaluación del Modelo
-Esta sección está destinada a presentar una visión más profunda del rendimiento del modelo predictivo final y, opcionalmente, de otros modelos que se hayan considerado durante la fase de experimentación.
 
-Exportar a Hojas de cálculo
+Esta sección presenta una visión profunda del rendimiento del modelo predictivo final (XGBOOST) y, opcionalmente, de otros modelos considerados durante la fase de experimentación.
 
 ### Métricas Detalladas del Modelo Final (XGBOOST):
 
---- Evaluación Final del Modelo en Conjunto de Prueba (Escala Original) ---
-MAE  (Mean Absolute Error) : 68,804.19 €
-RMSE (Root Mean Squared Error): 137,169.68 €
-R²   (R-squared)           : 0.8706
+La evaluación de un modelo de regresión se basa en varias métricas que cuantifican su precisión y capacidad de generalización.
 
-(Nota: Los valores del conjunto de entrenamiento ayudan a identificar el sobreajuste si son significativamente mejores que los del conjunto de prueba).
+--- Evaluación Final del Modelo en Conjunto de Prueba (Escala Original) ---
+
+* **MAE (Mean Absolute Error / Error Absoluto Medio):** 68,804.19 €
+    * **Justificación Matemática Breve:** El MAE mide el promedio de las diferencias absolutas entre los valores predichos y los valores reales. Es menos sensible a outliers que el RMSE. Se calcula como:
+        $$MAE = \frac{1}{N} \sum_{i=1}^{N} |y_i - \hat{y}_i|$$
+        Donde:
+        * $N$ es el número total de observaciones.
+        * $y_i$ es el valor real de la i-ésima observación.
+        * $\hat{y}_i$ es el valor predicho para la i-ésima observación.
+        [Fuente: TJ Gokken - Mean Absolute Error (MAE)](https://tjgokken.com/mean-absolute-error-mae-the-no-drama-loss-function)
+
+* **RMSE (Root Mean Squared Error / Raíz del Error Cuadrático Medio):** 137,169.68 €
+    * **Justificación Matemática Breve:** El RMSE es la raíz cuadrada del promedio de los errores al cuadrado. Penaliza más los errores grandes debido al término cuadrático. Se calcula como:
+        $$RMSE = \sqrt{\frac{\sum_{i=1}^{N} (y_i - \hat{y}_i)^2}{N}}$$
+        Donde:
+        * $N$ es el número total de observaciones.
+        * $y_i$ es el valor real de la i-ésima observación.
+        * $\hat{y}_i$ es el valor predicho para la i-ésima observación.
+        [Fuente: Deepchecks - What is Root Mean Square Error?](https://www.deepchecks.com/glossary/root-mean-square-error/)
+
+* **R² (R-squared / Coeficiente de Determinación):** 0.8706
+    * **Justificación Matemática Breve:** R² representa la proporción de la varianza de la variable dependiente que es predecible a partir de las variables independientes. Un valor cercano a 1 indica un buen ajuste del modelo. Se calcula como:
+        $$R^2 = 1 - \frac{\sum_{i=1}^{N} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{N} (y_i - \bar{y})^2}$$
+        Donde:
+        * $y_i$ es el valor real.
+        * $\hat{y}_i$ es el valor predicho.
+        * $\bar{y}$ es la media de los valores reales.
+        * $\sum (y_i - \hat{y}_i)^2$ es la suma de los cuadrados de los residuos (SSR).
+        * $\sum (y_i - \bar{y})^2$ es la suma total de los cuadrados (SST).
+        [Fuente: Numeracy, Maths and Statistics - Academic Skills Kit - Coefficient of Determination, R-squared](https://www.ncl.ac.uk/webtemplate/ask-assets/external/maths-resources/statistics/regression-and-correlation/coefficient-of-determination-r-squared.html)
+
+*(Nota: Los valores del conjunto de entrenamiento ayudan a identificar el sobreajuste si son significativamente mejores que los del conjunto de prueba).*
 
 ### Curvas de Aprendizaje (Learning Curves):
-Una curva de aprendizaje muestra el rendimiento del modelo en los conjuntos de entrenamiento y validación (o prueba) a medida que aumenta el número de ejemplos de entrenamiento. Son útiles para diagnosticar si el modelo se beneficiaría de más datos, o si sufre de alto sesgo (subajuste) o alta varianza (sobreajuste).
-### En esta imagen se demuestra que el augmento de los datos haría mejorar las predicciones del modelo.
 
-<img width="816" alt="image" src="https://github.com/user-attachments/assets/fdd6df33-161f-4938-8ee0-6c3881dc962f" />
+Una curva de aprendizaje muestra el rendimiento del modelo (por ejemplo, el error) en los conjuntos de entrenamiento y validación (o prueba) a medida que aumenta el número de ejemplos de entrenamiento. Son una herramienta diagnóstica crucial para entender si el modelo sufre de alto sesgo (subajuste, el modelo es demasiado simple), alta varianza (sobreajuste, el modelo memoriza los datos de entrenamiento y no generaliza bien), o si se beneficiaría de más datos. [Fuente: SKY ENGINE AI - Using Learning Curves to Analyse Machine Learning Model Performance](https://www.skyengine.ai/blog/using-learning-curves-to-analyse-machine-learning-model-performance).
 
+**Interpretación de la imagen:**
+La siguiente curva de aprendizaje muestra el MAE (Mean Absolute Error) en la escala logarítmica del precio, tanto para el conjunto de entrenamiento (rojo) como para el de validación cruzada (verde).
+* La curva de entrenamiento muestra un error que disminuye y se estabiliza a medida que se utilizan más datos.
+* La curva de validación cruzada también muestra un error decreciente que tiende a converger con la curva de entrenamiento.
+* Si ambas curvas convergen a un error bajo y están cerca, el modelo generaliza bien. Si la curva de validación sigue bajando y se acerca a la de entrenamiento a medida que aumenta el tamaño del conjunto de entrenamiento, como parece ser el caso aquí, indica que el aumento de los datos podría mejorar aún más las predicciones del modelo, reduciendo la varianza y potencialmente el sesgo si el error convergente aún es alto.
 
-### Resultados de la Optimización de Hiperparámetros (si se realizó con GridSearchCV/RandomizedSearchCV):
+<img width="816" alt="Curva de Aprendizaje del Modelo XGBoost" src="https://github.com/user-attachments/assets/fdd6df33-161f-4938-8ee0-6c3881dc962f" />
+
+### Resultados de la Optimización de Hiperparámetros (con RandomizedSearchCV):
+
+La optimización de hiperparámetros es el proceso de encontrar la combinación de parámetros para un algoritmo de aprendizaje que maximiza el rendimiento del modelo. `RandomizedSearchCV` explora un número fijo de combinaciones de parámetros a partir de distribuciones especificadas.
 
 **Mejores Hiperparámetros Encontrados:**
 {'subsample': 0.8, 'reg_lambda': 0.5, 'reg_alpha': 0, 'n_estimators': 300, 'max_depth': 9, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
 
-### Curvas de validación delos hiperparametros y validación cruzada:
+### Curvas de Validación de Hiperparámetros y Validación Cruzada:
 
-<img width="826" alt="image" src="https://github.com/user-attachments/assets/b9cc2dab-7079-40b7-94c2-bf8f10b9dfac" />
+Las curvas de validación son una herramienta para evaluar la sensibilidad de un modelo a un hiperparámetro específico. Se entrena el modelo con diferentes valores del hiperparámetro y se grafica el error de entrenamiento y el error de validación (obtenido mediante validación cruzada) para cada valor. Esto ayuda a identificar si el modelo está subajustando o sobreajustando para ciertos rangos del hiperparámetro. [Fuente: Kili Technology - Types of Cross Validation Techniques](https://kili-technology.com/data-labeling/machine-learning/cross-validation-in-machine-learning).
 
-### Graficación de Importancia de Características Detallado:
+**Interpretación de la imagen:**
+La imagen muestra la curva de validación para el hiperparámetro `max_depth` del modelo XGBoost, utilizando el MAE en la escala logarítmica del precio.
+* La línea roja representa el error (MAE) en el conjunto de entrenamiento, y la línea verde el error en la validación cruzada.
+* Se observa cómo varía el rendimiento al cambiar `max_depth`. Idealmente, se busca un valor que minimice el error de validación sin que haya una brecha demasiado grande con el error de entrenamiento (lo que indicaría sobreajuste). En este caso, parece que profundidades mayores (alrededor de 9-10) ofrecen un buen rendimiento en validación antes de que el error empiece a aumentar o la brecha con el error de entrenamiento se amplíe significativamente.
 
-![image](https://github.com/user-attachments/assets/54b36c78-ccac-4a77-8c80-12662e08794a)
+<img width="826" alt="Curva de Validación para max_depth en XGBoost" src="https://github.com/user-attachments/assets/b9cc2dab-7079-40b7-94c2-bf8f10b9dfac" />
 
-<img width="762" alt="image" src="https://github.com/user-attachments/assets/3ef4c73c-e83c-4cce-91e4-d06313fa001a" />
+### Graficación Detallada de Importancia de Características:
 
+La importancia de características indica cuánto contribuye cada característica a las predicciones del modelo. Es fundamental para entender qué factores son más influyentes, para simplificar modelos (eliminando características no importantes) y para explicar el comportamiento del modelo. [Fuente: Built In - Understanding Feature Importance](https://builtin.com/data-science/feature-importance).
+
+**Interpretación de las imágenes (SHAP Values):**
+Las siguientes imágenes utilizan valores SHAP (SHapley Additive exPlanations) para explicar la importancia de las características. SHAP es un enfoque basado en la teoría de juegos que asigna a cada característica la contribución de esa característica a la predicción de una instancia específica. [Fuente: Christoph Molnar - Interpretable Machine Learning - SHAP](https://christophm.github.io/interpretable-ml-book/shap.html).
+
+1.  **SHAP Summary Plot (Beeswarm Plot):**
+    Esta gráfica muestra el impacto de cada característica en la predicción del logaritmo del precio.
+    * Cada punto representa una instancia (una vivienda en este caso) y una característica.
+    * El eje X indica el valor SHAP: valores positivos aumentan la predicción del precio, valores negativos la disminuyen.
+    * El color de cada punto representa el valor de la característica para esa instancia (rojo para valores altos, azul para bajos).
+    * Las características se ordenan por su importancia global (impacto medio absoluto). `cluster_avg_logprice` y `size` parecen ser las más influyentes. Para `size`, valores altos (puntos rojos) tienden a tener valores SHAP positivos altos, aumentando la predicción del precio, lo cual es intuitivo.
+
+    ![SHAP Summary Plot (Beeswarm)](https://github.com/user-attachments/assets/54b36c78-ccac-4a77-8c80-12662e08794a)
+
+2.  **SHAP Feature Importance (Bar Plot):**
+    Esta gráfica muestra la importancia media absoluta de los valores SHAP para cada característica. Es una medida de la magnitud del impacto de cada característica en las predicciones, promediada sobre todas las instancias. Confirma que `cluster_avg_logprice` y `size` son las características con mayor impacto promedio.
+
+    <img width="762" alt="SHAP Feature Importance (Bar Plot)" src="https://github.com/user-attachments/assets/3ef4c73c-e83c-4cce-91e4-d06313fa001a" />
 
 
 ---
