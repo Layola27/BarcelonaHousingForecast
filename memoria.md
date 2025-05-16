@@ -25,6 +25,32 @@ Este documento detalla la metodología seguida, las herramientas empleadas, los 
 
 ---
 
+# Abstract
+
+This document details the technical aspects of the "Analysis and Forecasting of Housing in Barcelona" project.
+
+**Main Objective:** The project focuses on gathering, processing, analyzing, and modeling real estate market data from Barcelona. The fundamental goal is to develop a system capable of predicting housing prices and providing valuable insights to stakeholders.
+
+**Implemented Workflow:** A comprehensive workflow was implemented, spanning:
+* Data extraction from the Idealista API.
+* Storage and management in a spatially-enabled PostgreSQL database (PostGIS).
+* Thorough data preprocessing.
+* Machine Learning model building (using Python and Scikit-learn).
+* Results visualization.
+
+**Technologies Used:** The project leverages a diverse technology stack, including:
+* **Data Languages and Tools:** Python, SQL, R, Jupyter Notebooks.
+* **Frameworks and Libraries:** FastAPI, React, Scikit-learn, Matplotlib, Seaborn.
+* **Databases:** PostgreSQL/PostGIS.
+* **Visualization and BI Tools:** Orange, Power BI.
+* **Natural Language Processing:** Langchain with Google Gemini for natural language queries.
+
+**Core Outcome:** The central outcome is a robust prediction pipeline that enables a web application (React frontend, FastAPI backend). This application offers interactive valuations and natural language data queries.
+
+**Presentation of Results:** Results are also presented via Power BI dashboards and R visualizations.
+
+**Document Content:** The document describes the methodology, tools used, results obtained, and potential future work.
+
 ## Tabla de Contenidos
 
 1.  **Introducción**
@@ -555,9 +581,9 @@ El rendimiento del `best_model` se evalúa sobre el conjunto de prueba (`X_test`
 Las predicciones (`y_pred_log`) y los valores reales de prueba (`y_test`) se revierten de la transformación logarítmica (usando `np.expm1`) para evaluar en la escala original de precios.
 Se calculan métricas clave:
 
-* **MAE (Error Absoluto Medio):** Proporciona el error promedio en euros.
-* **RMSE (Raíz del Error Cuadrático Medio):** Similar al MAE pero penaliza más los errores grandes.
-* **R² (Coeficiente de Determinación):** Indica la proporción de la varianza del precio explicada por el modelo.
+* **MAE : 68,804.19 € (Error Absoluto Medio):** Proporciona el error promedio en euros.
+* **RMSE: 137,169.68 € (Raíz del Error Cuadrático Medio):** Similar al MAE pero penaliza más los errores grandes.
+* **R²: 0.8706 (Coeficiente de Determinación):** Indica la proporción de la varianza del precio explicada por el modelo.
 
 ```python
 # BLOQUE 10: Evaluación Final del Modelo
@@ -571,7 +597,7 @@ Se calculan métricas clave:
 # print(f"R²   (R-squared)           : {r2:.4f}")
 ```
 
-Los resultados típicos obtenidos (ej. $MAE \approx 64,917 \text{€}$, $R^2 \approx 0.8630$) indican un buen ajuste del modelo, aunque siempre hay margen de mejora.
+Los resultados típicos obtenidos (ej. $MAE \approx 68,000 \text{€}$, $R^2 \approx 0.87$) indican un buen ajuste del modelo, aunque siempre hay margen de mejora.
 
 ### 3.7. Fase 6: Exportación del Pipeline Completo (`Scripts/4.ModeloExport.ipynb`)
 Una vez entrenado y evaluado, el pipeline de preprocesamiento y el modelo predictivo se guardan para su reutilización, especialmente para el despliegue en la aplicación web.
@@ -907,7 +933,7 @@ El Análisis Exploratorio de Datos (EDA), realizado principalmente mediante `Scr
 
 ### 5.2. Rendimiento del Modelo Predictivo
 
-El modelo final, un `RandomForestRegressor` encapsulado en el pipeline `pipeline_idealista_completo_v2.joblib` (entrenado y evaluado en `Scripts/Aux.IdealistaModeloAmpliado.ipynb`), demostró el siguiente rendimiento en el conjunto de prueba (datos no vistos durante el entrenamiento):
+El modelo final, un `RandomForestRegressor` encapsulado en el pipeline `pipeline_idealista_completo_v2.joblib` (entrenado y evaluado en `Scripts/4ModeloExport.ipynb`), demostró el siguiente rendimiento en el conjunto de prueba (datos no vistos durante el entrenamiento):
 
 MAE  (Mean Absolute Error) : 68,804.19 €
 RMSE (Root Mean Squared Error): 137,169.68 €
@@ -916,6 +942,11 @@ R²   (R-squared)           : 0.8706
 **Análisis de Residuos:**
 La distribución de los residuos (diferencia entre precios reales y predichos) se analizó para detectar posibles sesgos. Idealmente, los residuos deberían estar centrados en cero y distribuidos normalmente. 
 
+<img width="702" alt="image" src="https://github.com/user-attachments/assets/f225bd99-bec4-40b6-b5d4-e96136843e8c" />
+
+<img width="686" alt="image" src="https://github.com/user-attachments/assets/68f81e03-2ed2-400c-b7c8-45f478012130" />
+
+
 **Importancia de Características:**
 Las características más influyentes en las predicciones del modelo `RandomForestRegressor` fueron:
 1.  `longitude` / `latitude` (Ubicación geográfica)
@@ -923,7 +954,7 @@ Las características más influyentes en las predicciones del modelo `RandomFore
 3.  `district` / `neighborhood` (codificados mediante Target Encoding)
 4.  `rooms` (Número de habitaciones)
 5.  `bathrooms` (Número de baños)
-6.  [**Otras características relevantes, e.g., `floor_numeric`, `hasLift`**]
+
 
 Esto confirma la intuición de que la superficie y la ubicación son los principales determinantes del precio, seguidos por la distribución interna de la vivienda.
 
@@ -931,7 +962,7 @@ Esto confirma la intuición de que la superficie y la ubicación son los princip
 
 Los pronósticos generados por el modelo se utilizan principalmente a través de la **aplicación web desarrollada**:
 * Los usuarios pueden introducir las características de una vivienda en el `ValuationForm.jsx` y obtener una estimación de precio instantánea. Esto proporciona una herramienta práctica para compradores, vendedores o curiosos del mercado.
-* La precisión del modelo puede variar ligeramente entre diferentes segmentos del mercado. [**Si se realizó un análisis de error segmentado, comentarlo. E.g., "Se observó que el modelo tiende a ser ligeramente más preciso para viviendas en rangos de precio intermedios que para propiedades de lujo extremo o muy económicas, donde la variabilidad y la escasez de datos pueden ser mayores."**]
+* La precisión del modelo puede variar ligeramente entre diferentes segmentos del mercado.
 
 Además de las predicciones de precio, la aplicación web, mediante su **asistente IA (`ChatDialog.jsx`)**, permite a los usuarios realizar consultas en lenguaje natural sobre la base de datos de viviendas. Por ejemplo:
 * _"¿Cuál es el precio medio por metro cuadrado en el barrio de Gràcia?"_
@@ -1186,19 +1217,137 @@ COMMENT ON COLUMN pisos_barcelona.geometry IS 'Coordenadas geográficas de la pr
 ```
 
 ## 10.2. Apéndice B: Scripts SQL Clave
-En esta sección se podrían incluir los contenidos completos de los scripts SQL más importantes utilizados para la creación y gestión de la base de datos, si no se han detallado suficientemente en el cuerpo principal de la memoria. Por motivos de brevedad y para evitar redundancia, se remite al lector a las Secciones 3.3.1, 3.3.2 y 3.3.3 donde ya se han presentado fragmentos y descripciones de:
 
-* `CrearTabla.sql` (similar al DDL mostrado en el Apéndice A)
-* `PasarDatosCSV.sql` (para la carga masiva de datos)
-* `AjustarValores.sql` (para la conversión de tipos de datos, e.g., a JSONB)
-* `CrearIndiceEspacial.sql` (para la creación del índice GIST sobre la columna geometry)
+En esta sección se detallan los scripts SQL fundamentales utilizados para la creación, gestión y optimización de la base de datos del proyecto. A continuación, se presenta el contenido y la descripción de cada uno de ellos:
+
+### `CrearTabla.sql`
+
+Este script se encarga de la definición y creación de la tabla principal `pisos_barcelona` donde se almacenan todos los datos relativos a las propiedades. Define la estructura de la tabla, los tipos de datos de cada columna y la clave primaria.
+
+```sql
+CREATE TABLE pisos_barcelona (
+    propertyCode BIGINT PRIMARY KEY,
+    thumbnail TEXT,
+    externalReference VARCHAR(100),
+    numPhotos SMALLINT,
+    floor VARCHAR(50),
+    price NUMERIC(12, 2),
+    priceInfo TEXT, -- CAMBIADO A TEXT
+    propertyType VARCHAR(50),
+    operation VARCHAR(20),
+    size NUMERIC(8, 2),
+    exterior TEXT, -- Mantenido TEXT
+    rooms SMALLINT,
+    bathrooms SMALLINT,
+    address TEXT,
+    province VARCHAR(100),
+    municipality VARCHAR(100),
+    district VARCHAR(100),
+    country VARCHAR(10),
+    neighborhood VARCHAR(100),
+    latitude DOUBLE PRECISION,
+    longitude DOUBLE PRECISION,
+    showAddress BOOLEAN,
+    url TEXT,
+    distance INTEGER,
+    description TEXT,
+    hasVideo BOOLEAN,
+    status VARCHAR(50),
+    newDevelopment BOOLEAN,
+    hasLift TEXT, -- Mantenido TEXT
+    priceByArea NUMERIC(10, 2),
+    change TEXT, -- Ya era TEXT o ahora es TEXT
+    detailedType TEXT, -- CAMBIADO A TEXT
+    suggestedTexts TEXT, -- CAMBIADO A TEXT
+    hasPlan BOOLEAN,
+    has3DTour BOOLEAN,
+    has360 BOOLEAN,
+    hasStaging BOOLEAN,
+    highlight TEXT, -- Ya era TEXT o ahora es TEXT
+    savedAd TEXT, -- Ya era TEXT o ahora es TEXT
+    notes TEXT,
+    topNewDevelopment BOOLEAN,
+    topPlus BOOLEAN,
+    parkingSpace TEXT, -- CAMBIADO A TEXT
+    newDevelopmentFinished TEXT, -- Ya era TEXT
+    geometry GEOMETRY(Point, 4326)
+);
+```
+## PasarDatosCSV.sql
+
+Este script facilita la carga masiva de datos desde un archivo CSV (`housing_data_current.csv`) a la tabla `pisos_barcelona`. Especifica el formato del archivo CSV, el delimitador, y cómo manejar los valores nulos durante la importación.
+
+```sql
+COPY pisos_barcelona (
+    propertyCode, thumbnail, externalReference, numPhotos, floor, price, priceInfo,
+    propertyType, operation, size, exterior, rooms, bathrooms, address, province,
+    municipality, district, country, neighborhood, latitude, longitude, showAddress,
+    url, distance, description, hasVideo, status, newDevelopment, hasLift, priceByArea,
+    change, detailedType, suggestedTexts, hasPlan, has3DTour, has360, hasStaging,
+    highlight, savedAd, notes, topNewDevelopment, topPlus, parkingSpace,
+    newDevelopmentFinished
+)
+FROM '/tmp/housing_data_current.csv'
+WITH (
+    FORMAT CSV,
+    HEADER TRUE,
+    DELIMITER ',',
+    QUOTE '"',
+    NULL ''
+);
+```
+
+## AjustarValores.sql
+
+El propósito de este script es realizar ajustes en los tipos de datos de ciertas columnas de la tabla `pisos_barcelona` después de la carga inicial. Específicamente, convierte columnas que almacenan cadenas con formato JSON (utilizando comillas simples) al tipo de dato `JSONB` nativo de PostgreSQL (que utiliza comillas dobles), permitiendo así consultas y manipulaciones más eficientes de estos datos. Se manejan explícitamente los casos de valores `NULL` o vacíos en la columna `parkingSpace` para evitar errores durante la conversión.
+
+```sql
+-- Para priceInfo
+ALTER TABLE pisos_barcelona
+ALTER COLUMN priceInfo TYPE JSONB
+USING replace(priceInfo, '''', '"')::jsonb;
+
+-- Para detailedType
+ALTER TABLE pisos_barcelona
+ALTER COLUMN detailedType TYPE JSONB
+USING replace(detailedType, '''', '"')::jsonb;
+
+-- Para suggestedTexts
+ALTER TABLE pisos_barcelona
+ALTER COLUMN suggestedTexts TYPE JSONB
+USING replace(suggestedTexts, '''', '"')::jsonb;
+
+-- Para parkingSpace (¡Ojo! Puede tener NULLs, la conversión fallará en NULLs si no se maneja)
+ALTER TABLE pisos_barcelona
+ALTER COLUMN parkingSpace TYPE JSONB
+USING CASE
+        WHEN parkingSpace IS NULL OR parkingSpace = '{}' OR parkingSpace = '' THEN NULL -- Maneja NULLs y vacíos explícitamente
+        ELSE replace(parkingSpace, '''', '"')::jsonb
+      END;
+```
+
+## CrearIndiceEspacial.sql
+
+Este script es crucial para optimizar las consultas espaciales. Crea un índice GIST (Generalized Search Tree) sobre la columna `geometry` de la tabla `pisos_barcelona`. Esta columna almacena la información geoespacial de las propiedades (puntos geográficos), y el índice GIST permite realizar búsquedas y análisis espaciales de manera mucho más eficiente.
+
+```sql
+CREATE INDEX idx_pisos_barcelona_geom ON pisos_barcelona USING GIST (geometry);
+```
+
+**Explicación:**
+
+  * **`CREATE INDEX idx_pisos_barcelona_geom ON pisos_barcelona`**: Esta instrucción SQL crea un nuevo índice llamado `idx_pisos_barcelona_geom` en la tabla `pisos_barcelona`.
+  * **`USING GIST (geometry)`**: Especifica el tipo de índice que se va a crear. En este caso, se utiliza un índice GIST. Los índices GIST son especialmente eficientes para indexar datos espaciales, así como otros tipos de datos complejos como rangos y arrays. La parte `(geometry)` indica que el índice se creará sobre la columna `geometry`, que contiene los datos de ubicación geográfica de las propiedades.
+
+Al crear este índice GIST en la columna `geometry`, las consultas que involucren operaciones espaciales (por ejemplo, buscar propiedades dentro de un radio determinado, encontrar la propiedad más cercana a un punto, etc.) se ejecutarán significativamente más rápido, ya que el sistema podrá utilizar el índice para localizar los datos relevantes de manera eficiente en lugar de tener que escanear toda la tabla.
+
 
 ## 10.3. Apéndice C: Métricas Detalladas de Evaluación del Modelo
 Esta sección está destinada a presentar una visión más profunda del rendimiento del modelo predictivo final y, opcionalmente, de otros modelos que se hayan considerado durante la fase de experimentación.
 
 Exportar a Hojas de cálculo
 
-### Métricas Detalladas del Modelo Final (RandomForestRegressor):
+### Métricas Detalladas del Modelo Final (XGBOOST):
 
 --- Evaluación Final del Modelo en Conjunto de Prueba (Escala Original) ---
 MAE  (Mean Absolute Error) : 68,804.19 €
@@ -1209,17 +1358,26 @@ R²   (R-squared)           : 0.8706
 
 ### Curvas de Aprendizaje (Learning Curves):
 Una curva de aprendizaje muestra el rendimiento del modelo en los conjuntos de entrenamiento y validación (o prueba) a medida que aumenta el número de ejemplos de entrenamiento. Son útiles para diagnosticar si el modelo se beneficiaría de más datos, o si sufre de alto sesgo (subajuste) o alta varianza (sobreajuste).
+### En esta imagen se demuestra que el augmento de los datos haría mejorar las predicciones del modelo.
+
+<img width="816" alt="image" src="https://github.com/user-attachments/assets/fdd6df33-161f-4938-8ee0-6c3881dc962f" />
 
 
 ### Resultados de la Optimización de Hiperparámetros (si se realizó con GridSearchCV/RandomizedSearchCV):
 
 **Mejores Hiperparámetros Encontrados:**
+{'subsample': 0.8, 'reg_lambda': 0.5, 'reg_alpha': 0, 'n_estimators': 300, 'max_depth': 9, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
 
+### Curvas de validación delos hiperparametros y validación cruzada:
 
-Score Obtenido con los Mejores Hiperparámetros (en validación cruzada): [VALOR, e.g., R² de CV]
+<img width="826" alt="image" src="https://github.com/user-attachments/assets/b9cc2dab-7079-40b7-94c2-bf8f10b9dfac" />
 
-### Análisis de Importancia de Características Detallado:
-Además del gráfico de barras presentado en la Sección 5.2, aquí se podría incluir una tabla con los valores numéricos de importancia para las N características principales.
+### Graficación de Importancia de Características Detallado:
+
+![image](https://github.com/user-attachments/assets/54b36c78-ccac-4a77-8c80-12662e08794a)
+
+<img width="762" alt="image" src="https://github.com/user-attachments/assets/3ef4c73c-e83c-4cce-91e4-d06313fa001a" />
+
 
 
 ---
