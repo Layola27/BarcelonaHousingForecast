@@ -546,7 +546,8 @@ El modelo principal seleccionado es `XGBoost Regressor` (`xgb.XGBRegressor`) deb
 # rand_search.fit(X_train, y_train)
 # best_model = rand_search.best_estimator_
 ```
-**Entrenamiento del Modelo Final:** El mejor estimador (`best_model`) encontrado por `RandomizedSearchCV` es el modelo final utilizado.
+**Entrenamiento del Modelo Final:** Mejores hiperparámetros encontrados:
+{'subsample': 0.8, 'reg_lambda': 0.5, 'reg_alpha': 0, 'n_estimators': 300, 'max_depth': 9, 'learning_rate': 0.05, 'colsample_bytree': 0.7}
 
 #### 3.6.5. Evaluación del Modelo Final
 El rendimiento del `best_model` se evalúa sobre el conjunto de prueba (`X_test`, `y_test`), que no se utilizó durante el entrenamiento ni la optimización.
@@ -908,17 +909,12 @@ El Análisis Exploratorio de Datos (EDA), realizado principalmente mediante `Scr
 
 El modelo final, un `RandomForestRegressor` encapsulado en el pipeline `pipeline_idealista_completo_v2.joblib` (entrenado y evaluado en `Scripts/Aux.IdealistaModeloAmpliado.ipynb`), demostró el siguiente rendimiento en el conjunto de prueba (datos no vistos durante el entrenamiento):
 
-* **Error Absoluto Medio (MAE):** [**Insertar VALOR MAE**] €
-    * _Interpretación: En promedio, las predicciones del modelo se desvían en [VALOR MAE] € del precio real._
-* **Raíz del Error Cuadrático Medio (RMSE):** [**Insertar VALOR RMSE**] €
-    * _Interpretación: Una medida del error de predicción típico, penalizando más los errores grandes._
-* **Coeficiente de Determinación (R²):** [**Insertar VALOR R² (e.g., 0.82)**]
-    * _Interpretación: Aproximadamente el [VALOR R² * 100]% de la variabilidad en los precios de las viviendas es explicada por las características incluidas en el modelo._
-* **(Opcional) Error Porcentual Absoluto Medio (MAPE):** [**Insertar VALOR MAPE**] %
-    * _Interpretación: El error promedio en términos porcentuales._
+MAE  (Mean Absolute Error) : 68,804.19 €
+RMSE (Root Mean Squared Error): 137,169.68 €
+R²   (R-squared)           : 0.8706
 
 **Análisis de Residuos:**
-La distribución de los residuos (diferencia entre precios reales y predichos) se analizó para detectar posibles sesgos. Idealmente, los residuos deberían estar centrados en cero y distribuidos normalmente. [**Comentar brevemente si se observaron patrones, e.g., "Los residuos mostraron una distribución aproximadamente normal centrada cerca de cero, aunque con una ligera tendencia a subestimar los precios en el extremo más alto del mercado."**]
+La distribución de los residuos (diferencia entre precios reales y predichos) se analizó para detectar posibles sesgos. Idealmente, los residuos deberían estar centrados en cero y distribuidos normalmente. 
 
 **Importancia de Características:**
 Las características más influyentes en las predicciones del modelo `RandomForestRegressor` fueron:
@@ -961,6 +957,25 @@ Es crucial reconocer las limitaciones inherentes a este proyecto y al modelo des
 * **Dependencias Externas:** La funcionalidad del asistente IA depende de la disponibilidad y políticas de la API de Google Gemini. La adquisición de datos depende de la API de Idealista. Cambios en estas APIs podrían requerir adaptaciones.
 * **Prototipo de Aplicación:** La aplicación web desarrollada es un prototipo para demostrar la funcionalidad. Un despliegue en producción requeriría consideraciones adicionales de seguridad, escalabilidad, pruebas exhaustivas y experiencia de usuario.
 
+## 6. Conclusiones
+
+El proyecto "Análisis y Pronóstico de Viviendas en Barcelona" ha logrado desarrollar un sistema integral que abarca la recopilación, procesamiento, análisis y modelado de datos del mercado inmobiliario, culminando en una aplicación web funcional para la valoración de propiedades y la consulta inteligente de datos. [cite: 29, 30, 31, 32, 33, 34, 35, 36, 37, 174, 175]
+
+Los principales hitos y conclusiones del proyecto son:
+
+* **Recopilación y Procesamiento de Datos Robusto:** Se implementó un pipeline eficiente para la extracción de datos desde la API de Idealista, su almacenamiento en una base de datos PostgreSQL con PostGIS para el manejo de información geoespacial, y un exhaustivo proceso de limpieza y preprocesamiento para preparar los datos para el modelado. [cite: 67, 68, 69, 70, 71, 72]
+   
+* **Modelo Predictivo de Alto Rendimiento:** Se desarrolló y entrenó un modelo de Machine Learning (XGBoost Regressor) que demostró una capacidad predictiva significativa, con un MAE de \MAE  (Mean Absolute Error) : 68,804.19 € y un R² de \R²   (R-squared)           : 0.8706 €. [cite: 151, 152, 153, 154, 155, 156, 157, 312, 313]
+   
+* **Aplicación Web Funcional e Interactiva:** Se construyó un prototipo de aplicación web con un frontend en React y un backend en FastAPI, que permite a los usuarios obtener valoraciones de viviendas, realizar consultas en lenguaje natural sobre el mercado inmobiliario y solicitar informes detallados. [cite: 174, 175, 190, 191]
+   
+* **Integración de Tecnologías Avanzadas:** El proyecto integró diversas tecnologías de vanguardia, incluyendo Langchain con Google Gemini para el procesamiento del lenguaje natural, lo que añade un valor diferencial a la aplicación al facilitar la interacción intuitiva con los datos. [cite: 196, 197, 198, 199, 200, 201]
+
+Si bien el modelo predictivo muestra un buen rendimiento, es crucial reconocer las limitaciones inherentes a los datos utilizados y la naturaleza dinámica del mercado inmobiliario. [cite: 323, 324, 325, 326, 327, 328, 329, 330, 331]
+
+Las futuras líneas de trabajo se centrarán en la expansión de las fuentes de datos, la incorporación de técnicas de modelado más avanzadas, y la mejora de la aplicación web para convertirla en una herramienta aún más completa y útil para los usuarios. [cite: 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374]
+
+
 ## 7. Lecciones Aprendidas y Retos Superados
 
 Durante el desarrollo del proyecto "Análisis y Pronóstico de Viviendas en Barcelona", se enfrentaron diversos retos y se extrajeron valiosas lecciones que enriquecen la experiencia y pueden guiar futuros trabajos:
@@ -968,7 +983,7 @@ Durante el desarrollo del proyecto "Análisis y Pronóstico de Viviendas en Barc
 * **Retos Técnicos y Metodológicos:**
     * **Gestión de APIs y Datos Externos:** La dependencia de la API de Idealista implicó adaptarse a sus límites de tasa, la estructura de sus respuestas y manejar posibles inconsistencias o cambios. La calidad y completitud de los datos provenientes de portales públicos siempre presenta desafíos (e.g., datos faltantes, errores de entrada).
     * **Preprocesamiento de Datos Complejo y Artesanal:** La limpieza de datos fue una tarea intensiva, requiriendo un tratamiento específico para columnas como `floor` (con múltiples formatos de entrada), la correcta conversión de tipos, y el manejo de un volumen considerable de características. La ingeniería de características, especialmente para datos geográficos (latitud, longitud) y categóricos de alta cardinalidad (como `neighborhood`), fue crucial pero compleja.
-    * **Optimización de Modelos y Evitar Sobreajuste:** Encontrar el equilibrio adecuado entre la complejidad del modelo (`RandomForestRegressor`), su rendimiento predictivo y su capacidad de generalización fue un proceso iterativo. La selección cuidadosa de hiperparámetros y una estrategia de validación robusta (división entrenamiento/prueba, y opcionalmente validación cruzada) fueron esenciales para mitigar el sobreajuste.
+    * **Optimización de Modelos y Evitar Sobreajuste:** Encontrar el equilibrio adecuado entre la complejidad del modelo (`XGBOOST`), su rendimiento predictivo y su capacidad de generalización fue un proceso iterativo. La selección cuidadosa de hiperparámetros y una estrategia de validación robusta (división entrenamiento/prueba, y opcionalmente validación cruzada) fueron esenciales para mitigar el sobreajuste.
     * **Integración de Múltiples Tecnologías (Full-Stack):** Orquestar el flujo de trabajo entre Python para el backend y el modelado, React para el frontend, FastAPI para la API, Langchain con un LLM (Gemini), y PostgreSQL, requirió un entendimiento de cada componente y asegurar una comunicación eficiente y sin errores entre ellos.
     * **Desarrollo Frontend-Backend:** Definir contratos de API claros (Pydantic en FastAPI fue de gran ayuda), manejar el estado de la aplicación en el frontend (especialmente con formularios multi-paso y llamadas asíncronas a la API), y depurar la comunicación de extremo a extremo fueron tareas que consumieron tiempo y esfuerzo significativos.
     * **Configuración del Entorno de Desarrollo y Despliegue:** Asegurar que todos los componentes (base de datos, backend, LLM) tuvieran las variables de entorno correctas (API keys, URLs de base de datos, credenciales) y que las dependencias estuvieran correctamente gestionadas fue fundamental, especialmente al considerar un futuro despliegue.
