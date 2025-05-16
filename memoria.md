@@ -27,12 +27,12 @@ Este documento detalla la metodología seguida, las herramientas empleadas, los 
 
 ## Tabla de Contenidos
 
-1.  Introducción
+1.  **Introducción**
     1.1. Contexto y Justificación
     1.2. Objetivos del Proyecto
     1.3. Alcance del Proyecto
-2.  Herramientas y Tecnologías Utilizadas
-3.  Metodología y Flujo de Trabajo
+2.  **Herramientas y Tecnologías Utilizadas**
+3.  **Metodología y Flujo de Trabajo**
     3.1. Descripción General del Flujo de Trabajo
     3.2. Fase 1: Adquisición y Recopilación de Datos
         3.2.1. Fuente de Datos: API de Idealista
@@ -61,22 +61,20 @@ Este documento detalla la metodología seguida, las herramientas empleadas, los 
     3.9. Fase 8: Visualización de Resultados (Alternativa)
         3.9.1. Visualizaciones Avanzadas con R
         3.9.2. Dashboard Interactivo en Power BI
-4.  Estructura del Repositorio del Proyecto
-5.  Resultados y Discusión
+4.  **Estructura del Repositorio del Proyecto**
+5.  **Resultados y Discusión**
     5.1. Principales Hallazgos del Análisis Exploratorio
     5.2. Rendimiento del Modelo Predictivo
     5.3. Análisis de Pronósticos
     5.4. Limitaciones del Estudio
-6.  Conclusiones
-7.  Lecciones Aprendidas y Retos Superados
-8.  Trabajos Futuros y Líneas de Mejora
-9.  Referencias
-10. Apéndices
+6.  **Conclusiones**
+7.  **Lecciones Aprendidas y Retos Superados**
+8.  **Trabajos Futuros y Líneas de Mejora**
+9.  **Referencias**
+10. **Apéndices**
     10.1. Apéndice A: Esquema Detallado de la Base de Datos
     10.2. Apéndice B: Scripts SQL Clave
     10.3. Apéndice C: Métricas Detalladas de Evaluación del Modelo
-
----
 
 ## 1. Introducción
 
